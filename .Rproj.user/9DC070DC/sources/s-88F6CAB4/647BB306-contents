@@ -1,0 +1,36 @@
+library(fcaR)
+library(readr)
+library(magrittr)
+library(dplyr)
+android <- read_csv("android-simplified.csv")
+
+android_rep <- android[c(2,169),]
+android %>% select("scans.Avast.result", "scans.AVG.result")
+
+android %>% select("scans.Avast.result", "scans.AVG.result")
+android %>% select("scans.TrendMicro-HouseCall.result", "scans.TrendMicro.result")
+
+android <- android %>%
+  select(contains("scans.")) %>%
+  mutate_all(~replace(., !is.na(.), 1)) %>%
+  mutate_all(~replace(., is.na(.), 0))
+
+
+fc <- FormalContext$new(android)
+fc$attributes
+fc$objects
+
+fc <- fc$clarify(TRUE)
+fc <- fc$reduce(TRUE)
+
+fc
+
+fc$find_concepts()
+fc$find_implications()
+
+fc$concepts$plot()
+fc$implications[1:10]
+
+fc$implications$apply_rules(c("composition","generalization"))
+
+android %>% select("scans.MAX.result", "scans.Fortinet.result", "scans.ESET-NOD32.result")
