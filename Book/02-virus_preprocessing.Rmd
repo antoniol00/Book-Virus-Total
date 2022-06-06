@@ -1,0 +1,78 @@
+
+# Visualización de datos
+
+En este capítulo vamos a realizar un primer análisis exploratorio sobre los atributos principales que usaremos en el próximo capítulo de análisis de datos, junto con una visualización inicial de los datos con los que contamos
+
+## Filtrado de información
+
+Partiendo del dataset procesado y guardado en el fichero android.csv, nos encontramos con la siguiente información:
+
+```{r, warning=FALSE, message=FALSE}
+android <- read_csv("android.csv")
+
+dim(android) # 183 objetos y 447 atributos
+
+head(colnames(android),30)
+```
+En estos primeros 30 atributos nos encontramos la información más importante. En el resto de atributos nos aparece información adicionaly el resultado del escaneo con todos los antivirus que han sido probados. En este resultado nos aparece el tipo de virus que ha sido identificado por el motor del antivirus, y aparece en la columna scans.*nombreAntivirus*.result:
+
+```{r, warning=FALSE, message=FALSE}
+android <- android %>%
+  select(scan_date,first_seen,last_seen,total,size,
+         times_submitted,harmless_votes,malicious_votes,positives,
+         submission.submitter_country,additional_info.exiftool.FileType,
+         additional_info.androguard.TargetSdkVersion,
+         contains(".result"))
+
+write.csv(android,file="android-simplified.csv")
+```
+
+Hemos filtrado toda la información importante y guarda en el fichero android-simplified.csv, que es el que usaremos finalmente en nuestro análisis de datos
+
+```{r, warning=FALSE, message=FALSE}
+android <- read_csv("android-simplified.csv")
+
+dim(android) # 183 objetos y 79 atributos
+
+android %>% select(contains(".result")) %>% dim()
+
+```
+Vemos que hay un total de 66 antivirus distintos usados en el análisis de los archivos:
+
+```{r, warning=FALSE, message=FALSE}
+
+#obtenemos nombre de los antivirus
+antivirus <- colnames(android)[grepl("result$",colnames(android))]
+
+#extraemos nombres, usando stringr
+antivirus %>% str_replace("scans.", "") %>% str_replace(".result", "")
+
+```
+
+## Visualización de los datos
+
+Vamos a visualizar algunos datos principales por pares:
+
+```{r, warning=FALSE, message=FALSE}
+plot(android %>%
+       select(total,size,
+     times_submitted,harmless_votes,malicious_votes,positives))
+```
+
+Observamos en primera instancia que no existe mucha relación entre estas variables.
+
+Vamos a usar series temporales, al contar con fechas, para representar lo que ha ocurrido a lo largo del tiempo. Usaremos el paquete ggplo2 para estas representaciones:
+
+### Visualización de positivos {#visualizacion_inicial}
+
+Vamos a visualizar los positivos encontrados a lo largo del tiempo. Vamos a escoger a partir de una determinada fecha, ya que todos ellos se engloban en el mismo tiempo.
+
+```{r, warning=FALSE, message=FALSE}
+android %>% filter(scan_date>="2021-11-03 07:33:53") %>%
+  ggplot(aes(x=scan_date,y=positives)) +
+  geom_line(color="blue",size=1) +
+  theme_minimal()+
+  geom_smooth(color="red")
+```
+
+Podemos observar, en el suavizado realizado, que la media se encuentra en torno a 20-25 positivos por instante de tiempo, con ligeras fluctuaciones.

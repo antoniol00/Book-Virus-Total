@@ -1,0 +1,41 @@
+# Análisis de datos. Regresion
+
+En esta sección vamos a aplicar los distintos procedimientos de análisis de datos vistos a lo largo de la asignatura. Para ello, usaremos el archivo que exportamos en capítulos anteriores: android-simplified.csv.
+
+En este segundo capítulo trateremos sobre técnicas de regresión univariables, multivariables y comparación de modelos.
+
+## Regresión
+
+Vamos a intentar en primer lugar, haciendo uso de la orden lm, una regresión univariable para intentar predecir el número de positivos que arroja cada virus, en función del resto de las variables numéricas.
+
+Como vimos en \@ref(visualizacion_inicial), vamos a filtrar para evitar aquellos valores anómalos.
+
+```{r,message=FALSE,warning=FALSE}
+dataset <- read.csv("android-simplified.csv")
+
+model <-  lm( positives ~ ., data = dataset %>% 
+                filter(scan_date>="2021-11-03 07:33:53") %>%
+                select(total,size,
+                       times_submitted,harmless_votes,malicious_votes,positives))
+summary(model)
+```
+Vemos que el resultado del model es bastante malo, la R2 es de 0.09884, y únicamente la variable size ha arrojado un valor significativo para incluirla, en el resto no podemos aceptar la hipótesis nula.
+
+Vamos a representar los valores de los positivos a lo largo del tiempo:
+
+```{r, warning=FALSE, message=FALSE}
+android %>% filter(scan_date>="2021-11-03 07:33:53") %>%
+  ggplot(aes(x=scan_date,y=positives)) +
+  geom_point(color="blue",size=1) +
+  theme_minimal() +
+  geom_line(aes(x=scan_date,y=predict(model,android %>% filter(scan_date>="2021-11-03 07:33:53")),color="red"))
+```
+Vamos a intentar realizar regresión con otras variables.
+
+```{r, warning=FALSE, message=FALSE}
+model <-  lm( harmless_votes ~ malicious_votes, data = dataset)
+summary(model)
+```
+Malicious_votes está muy relacionada con Harmless_votes y un poco con positives. No es fiable porque solo representa 3 casos aislados y todos los que son 0. Osea, cuando no hay harmless_votes no suele haber malicious_votes, algo de sentido común si los archivos que se suben no tienen nada raro.
+
+Observando el resto de variables, no vamos a obtener nada en claro, y parece que no vamos a poder encontrar ninguna regresión lo suficientemente buena para incluirla como conclusión final.

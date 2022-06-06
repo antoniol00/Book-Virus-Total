@@ -6,7 +6,7 @@ android <- read_csv("Book-Virus-Total/android.csv")
 
 colnames(android)
 
-#Vamos a quedarnos con las columnas más importantes
+#Vamos a quedarnos con las columnas mas importantes
 
 android <- android %>%
   select(scan_date,first_seen,last_seen,total,size,

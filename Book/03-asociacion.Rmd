@@ -1,0 +1,165 @@
+# Análisis de datos. Asociación
+
+En esta sección vamos a aplicar los distintos procedimientos de análisis de datos vistos a lo largo de la asignatura. Para ello, usaremos el archivo que exportamos en capítulos anteriores: android-simplified.csv.
+
+En este primer capítulo trateremos sobre las reglas de asociación.
+
+## Reglas de asociación
+
+Para encontrar reglas de asociación, usaremos los paquetes ***arules*** y ***arulesViz***
+
+```{r, warning=FALSE, message=FALSE}
+library(arules)
+library(arulesViz)
+```
+### Iteración 1
+
+#### Elección de atributos
+
+Para poder aplicar el algoritmo a priori, debemos primeramente escoger los atributos que queremos que formen parte del conjunto de atributos para las reglas.
+
+```{r, warning=FALSE, message=FALSE}
+android <- read_csv("android-simplified.csv")
+
+# Vamos a escoger los siguientes atributos, eliminando fechas
+android <- android %>%
+  select(size,times_submitted,harmless_votes,
+         malicious_votes,positives,submission.submitter_country,
+         additional_info.exiftool.FileType)
+
+
+```
+
+#### Discretizamos valores numéricos
+
+Vamos a discretizar aquellas columnas que solo contengan valores numéricos, aplicando tanto ***discretize*** como ***cut*** y ***orderer***:
+
+```{r, warning=FALSE, message=FALSE}
+
+summary(android$size) # informacion estadistica del tamaño para establecer los límites
+
+android$size <- ordered(cut(android$size, c("1152","611482","2669106","4518866","178355426")),
+                              labels = c("LessThan597KB","MoreThan597KBLessThan2.54MB","MoreThan2.54MBLessThan4.3MB","MoreThan4.3MB"))
+
+android$times_submitted <- discretize(android$times_submitted,method="interval",breaks=4,
+                            labels = c("few","less","more","most"))
+
+android$harmless_votes <- discretize(android$harmless_votes,method="interval",breaks=4,
+                                     labels = c("few","less","more","most"))
+android$malicious_votes <- discretize(android$malicious_votes,method="interval",breaks=4,
+                                      labels = c("few","less","more","most"))
+
+android$positives <- discretize(android$positives,method="interval",breaks=4,
+                                labels = c("few","less","more","most"))
+
+```
+
+#### Otros tratamientos
+
+Finalmente, eliminamos los valores NA:
+
+```{r, warning=FALSE, message=FALSE}
+android <- android %>% na.omit()
+```
+
+El resultado final que hemos obtenido en el dataset que usaremos para extraer las reglas es el siguiente:
+
+```{r, warning=FALSE, message=FALSE}
+paged_table(android)
+dim(android) # Hemos obtenido una tabla de 181 virus y 7 atributos
+```
+
+#### Extracción de reglas 
+
+Vamos a usar el algoritmo a priori para extraer un conjunto inicial de reglas. Vamos a buscar aquellas que tengan una longitud mínima de 3 atributos, con ciertos valores de confianza y soporte para obtener un conjunto de reglas bueno:
+
+```{r, warning=FALSE, message=FALSE}
+rules <- android %>% apriori(parameter = list(support=0.7,confidence=0.7,minlen=3))
+
+summary(rules)
+
+```
+
+#### Postprocessing y visualización 
+
+Hemos obtenido un total de 3 reglas con longitud 3 y valores de confianza y soporte mínimos de 0.99 y 0.98, respectivamente. La media de la confianza obtenida entre todas las reglas es bastante alta, de 0.9981. Vamos a aplicar algunos filtros y extraer algunas reglas relevantes:
+
+```{r, warning=FALSE, message=FALSE}
+# eliminamos redundantes
+rules <- rules[!is.redundant(rules)]
+
+# ordenamos por lift
+rules_sorted <- sort(rules, by="lift")
+
+plot(rules_sorted, method="graph", engine="graphviz")
+
+```
+
+Vemos que hay 3 atributos implicados:
+
+- El fichero tiene pocos votos de ser no dañino
+- El fichero tiene pocos votos de ser ser malicioso
+- El fichero se ha subido pocas veces
+
+Podemos ver que existe una relación entre los 3, con una confianza bastante grande. Vamos a buscar otras reglas escogiendo columnas diferentes.
+
+### Iteración 2
+
+#### Elección de atributos
+
+Vamos a aplicar de nuevo el algoritmo para otro conjunto de atributos. Nos centraremos en los resultados brindados por los antivirus.
+
+```{r, warning=FALSE, message=FALSE}
+android <- read_csv("android-simplified.csv")
+
+# Vamos a escoger los siguientes atributos
+android <- android %>%
+  select(submission.submitter_country,
+         additional_info.exiftool.FileType,contains(".result"))
+
+
+```
+
+El resultado final que hemos obtenido en el dataset que usaremos para extraer las reglas es el siguiente:
+
+```{r, warning=FALSE, message=FALSE}
+paged_table(android)
+dim(android) # Hemos obtenido una tabla de 183 virus y 68 atributos
+```
+
+#### Extracción de reglas 
+
+Vamos a usar el algoritmo a priori para extraer un conjunto inicial de reglas. Vamos a buscar aquellas que tengan una longitud mínima de 2 atributos, con ciertos valores de confianza y soporte para obtener un conjunto de reglas bueno:
+
+```{r, warning=FALSE, message=FALSE}
+rules <- android %>% apriori(parameter = list(support=0.5,confidence=0.5,minlen=2))
+
+summary(rules)
+
+```
+
+#### Postprocessing y visualización 
+
+Hemos obtenido un total de 9 reglas con longitud mínima 2 (6 reglas de longitud 2 y 3 reglas de longitud 3) y valores de confianza y soporte mínimos de 0.5. La media de la confianza obtenida entre todas las reglas es bastante alta, de 0.8619. Vamos a aplicar algunos filtros y extraer algunas reglas relevantes:
+
+```{r, warning=FALSE, message=FALSE}
+# eliminamos redundantes
+rules <- rules[!is.redundant(rules)]
+
+# ordenamos por lift
+rules_sorted <- sort(rules, by="lift")
+
+inspect(rules_sorted@rhs)
+inspect(rules_sorted@lhs)
+
+plot(rules_sorted, method="graph", engine="graphviz")
+
+```
+
+Vemos que hay 3 atributos implicados:
+
+- El fichero es de tipo ZIP
+- El antivirus Avast Mobile ha dado positivo en virus Evo-gen
+- El antivirus Cynet ha dado positivo en virus Malicious (Score:99)
+
+Los resultados de estos tres atributos parecen estar bastante enlazados, con un lift siempre mayor que 1 para todas las reglas extraídas.

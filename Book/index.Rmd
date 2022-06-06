@@ -1,0 +1,24 @@
+--- 
+title: "Proyecto Book LCC"
+author: "Antonio Lara Gutiérrez"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+description: |
+  Este book ha sido creado para un proyecto de la asignatura Laboratorio de Computación Científica del Grado de Ingeniería Informática en la Universidad de Málaga
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+---
+
+# Introducción
+
+Este book ha sido creado como parte de un proyecto de la asignatura Laboratorio de Computación Científica del Grado de Ingeniería Informática en la Universidad de Málaga.
+
+Este book contiene dos ejercicios propuestos por el profesor:
+
+- **Ejercicio grupal**: ejercicio donde tomaremos datos procedentes de la empresa de ciberseguridad ***[Virus Total](https://www.virustotal.com/gui/intelligence-overview)***, y a los que aplicaremos conceptos vistos durante el curso para extraer conocimiento.
+
+Este ejercicio grupal se ha relizado junto al compañero Víctor Ramírez Mármol. Se puede consultar el repositorio en GitHub con toda la información recogida del proyecto, a través de este **[enlace](https://github.com/antoniol00/Book-Virus-Total)**.
+
+- **Ejercicio individual**: ejercicio donde aplicaremos textmining o minería de texto a un registro de mensajes de Whatsapp, para obtener información oculta a partir de los datos obtenidos.

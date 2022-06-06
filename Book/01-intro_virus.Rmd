@@ -1,0 +1,98 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(knitr)
+library(rmarkdown)
+library(tidyjson)
+library(readr)
+library(stringr)
+library(ggplot2)
+```
+
+# Análisis de datos de virus
+
+En este capítulo presentaremos la información que hemos recibido para aplicar análisis de datos de parte de Virus Total, y preparemos los datasets para luego poder procesarlos de manera correcta en R.
+
+## Metodologia
+
+En este primer capítulo de pre-processing mostraremos algunos ejemplos de como trabajar con archivos de este tipo en R, realizando un mapeo que introduzca toda la información de estos en un dataset, para posteriormente poder ser manipulada.
+
+En los siguientes capítulos prepararemos una visualización de los datos, así como la aplicación de todas las técnicas de datos que hemos visto a lo largo de la asignatura:
+
+- Reglas de asociación usando el paquete arules
+- Clustering usando el algoritmo kmeans
+- Análisis de conceptos formales usando el paquete fcaR
+- Regresión lineal univariable y multivariable
+
+## Trabajar con archivos JSON
+
+Los datos recibidos conforman un paquete con distintos archivos JSON.
+
+Los archivos JSON pueden ser procesados en R, introduciendo el contenido que muestran en un objeto dataframe. Los archivos con los que trataremos contienen información de la forma *clave*:*valor*.
+
+Veamos un ejemplo de como mapear el siguiente JSON, usando un archivo de prueba, que contiene la siguiente información:
+
+${``name":``virus",``surname":``total",``date": ``2021-11-03 00:19:30"}$
+
+Para poder leer este archivo, necesitamos de la librería *tidyjson*, que nos proporciona herramientas para convertir datos en JSON a data frames, que es justo lo que necesitamos. Instalaremos el paquete con la orden:
+
+```{r, warning=FALSE, message=FALSE}
+install.packages("tidyjson")
+```
+
+El archivo que contiene la información se llama test.json. Para obtener un data frame con la información de este, ejecutamos los siguientes comandos:
+
+```{r, warning=FALSE, message=FALSE}
+json_data <- read_json("test.json") # leemos de fichero
+
+json_data # información no mapeada
+
+item <- json_data %>% spread_all() # extraemos informacion
+
+paged_table(item)
+```
+
+## Creación del dataset
+
+Una vez que ya sabemos extraer información de un fichero JSON, vamos a proceder a leer secuencialmente todos los ficheros que nos han proporcionado, y vamos a insertar su información en un data frame. Posteriormente, guardaremos la información de este en formato .csv, al que llamaremos android.csv, para ahorrar el tener que procesar de nuevo todos los ficheros.
+
+Los archivos se encuentran dentro de la carpeta Android, y son aquellos que terminan en .json
+
+```{r, warning=FALSE, message=FALSE}
+ficheros <- Sys.glob("Android/*.json")
+
+length(ficheros) # Contamos con un total de 183 ficheros de datos de virus
+
+head(ficheros,10)
+```
+A continuación, vamos a iterar cada uno de ellos, a los que aplicaremos los comandos ***read_json*** para obtener toda la información y ***spread_all*** para extraerla en un data frame. Montaremos el data frame usando ***bind_rows***
+
+```{r, warning=FALSE, message=FALSE}
+first = TRUE
+
+for (file in ficheros){
+    json_data <- read_json(file)
+    if(first){
+      android <- json_data %>% spread_all()
+      first = FALSE
+    }else {
+      android <- bind_rows(android,json_data %>% spread_all())
+    }
+}
+```
+
+Con esto tendremos un dataframe con 183 filas (una para cada fichero de información) y 447 variables, que corresponde con la información que guarda cada fichero.
+
+Finalmente, vamos a escribir esta información en un archivo .csv, usando para ello el comando ***write.csv*** sobre la variable con los datos que acabamos de crear, y visualizamos su contenido
+
+```{r, warning=FALSE, message=FALSE}
+android <- apply(android,2,as.character) # eliminamos caracteres no deseados
+write.csv(android,file="android.csv")
+
+android <- read_csv("android.csv")
+```
+
+```{r, warning=FALSE, message=FALSE}
+paged_table(android) # toda la información extraída
+```
+

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 5 Análisis de datos. Clustering | Proyecto Book LCC</title>
+  <meta name="description" content="Este book ha sido creado para un proyecto de la asignatura Laboratorio de Computación Científica del Grado de Ingeniería Informática en la Universidad de Málaga" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 5 Análisis de datos. Clustering | Proyecto Book LCC" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Este book ha sido creado para un proyecto de la asignatura Laboratorio de Computación Científica del Grado de Ingeniería Informática en la Universidad de Málaga" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 5 Análisis de datos. Clustering | Proyecto Book LCC" />
+  
+  <meta name="twitter:description" content="Este book ha sido creado para un proyecto de la asignatura Laboratorio de Computación Científica del Grado de Ingeniería Informática en la Universidad de Málaga" />
+  
+
+<meta name="author" content="Antonio Lara Gutiérrez" />
+
+
+<meta name="date" content="2022-06-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="análisis-de-datos.-asociación.html"/>
+<link rel="next" href="análisis-de-datos.-fca.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Proyecto Book LCC</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introducción</a></li>
+<li class="chapter" data-level="2" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html"><i class="fa fa-check"></i><b>2</b> Análisis de datos de virus</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html#metodologia"><i class="fa fa-check"></i><b>2.1</b> Metodologia</a></li>
+<li class="chapter" data-level="2.2" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html#trabajar-con-archivos-json"><i class="fa fa-check"></i><b>2.2</b> Trabajar con archivos JSON</a></li>
+<li class="chapter" data-level="2.3" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html#creación-del-dataset"><i class="fa fa-check"></i><b>2.3</b> Creación del dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html"><i class="fa fa-check"></i><b>3</b> Visualización de datos</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#filtrado-de-información"><i class="fa fa-check"></i><b>3.1</b> Filtrado de información</a></li>
+<li class="chapter" data-level="3.2" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#visualización-de-los-datos"><i class="fa fa-check"></i><b>3.2</b> Visualización de los datos</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#visualizacion_inicial"><i class="fa fa-check"></i><b>3.2.1</b> Visualización de positivos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html"><i class="fa fa-check"></i><b>4</b> Análisis de datos. Asociación</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html#reglas-de-asociación"><i class="fa fa-check"></i><b>4.1</b> Reglas de asociación</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html#iteración-1"><i class="fa fa-check"></i><b>4.1.1</b> Iteración 1</a></li>
+<li class="chapter" data-level="4.1.2" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html#iteración-2"><i class="fa fa-check"></i><b>4.1.2</b> Iteración 2</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html"><i class="fa fa-check"></i><b>5</b> Análisis de datos. Clustering</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#clustering"><i class="fa fa-check"></i><b>5.1</b> Clustering</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#elección-de-atributos-2"><i class="fa fa-check"></i><b>5.1.1</b> Elección de atributos</a></li>
+<li class="chapter" data-level="5.1.2" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#otros-tratamientos-1"><i class="fa fa-check"></i><b>5.1.2</b> Otros tratamientos</a></li>
+<li class="chapter" data-level="5.1.3" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#agrupación-en-clusters.-iteración-1"><i class="fa fa-check"></i><b>5.1.3</b> Agrupación en clusters. Iteración 1</a></li>
+<li class="chapter" data-level="5.1.4" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#agrupación-en-clusters.-iteración-2"><i class="fa fa-check"></i><b>5.1.4</b> Agrupación en clusters. Iteración 2</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html"><i class="fa fa-check"></i><b>6</b> Análisis de datos. FCA</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#análisis-de-conceptos-formales"><i class="fa fa-check"></i><b>6.1</b> Análisis de conceptos formales</a></li>
+<li class="chapter" data-level="6.2" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#trabajo-previo"><i class="fa fa-check"></i><b>6.2</b> Trabajo previo</a></li>
+<li class="chapter" data-level="6.3" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#creación-del-objeto-formal"><i class="fa fa-check"></i><b>6.3</b> Creación del objeto formal</a></li>
+<li class="chapter" data-level="6.4" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#búsqueda-de-información-por-clarificación-y-reducción"><i class="fa fa-check"></i><b>6.4</b> Búsqueda de información por clarificación y reducción</a></li>
+<li class="chapter" data-level="6.5" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#extracción-de-conceptos-e-implicaciones"><i class="fa fa-check"></i><b>6.5</b> Extracción de conceptos e implicaciones</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#conceptos"><i class="fa fa-check"></i><b>6.5.1</b> Conceptos</a></li>
+<li class="chapter" data-level="6.5.2" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#implicaciones"><i class="fa fa-check"></i><b>6.5.2</b> Implicaciones</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="análisis-de-datos.-regresion.html"><a href="análisis-de-datos.-regresion.html"><i class="fa fa-check"></i><b>7</b> Análisis de datos. Regresion</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="análisis-de-datos.-regresion.html"><a href="análisis-de-datos.-regresion.html#regresión"><i class="fa fa-check"></i><b>7.1</b> Regresión</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>8</b> Conclusiones</a></li>
+<li class="chapter" data-level="9" data-path="text-mining-en-app-de-mensajería.html"><a href="text-mining-en-app-de-mensajería.html"><i class="fa fa-check"></i><b>9</b> Text Mining en app de mensajería</a></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/antoniol00/Book-Virus-Total" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Proyecto Book LCC</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="análisis-de-datos.-clustering" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Capítulo 5</span> Análisis de datos. Clustering<a href="análisis-de-datos.-clustering.html#análisis-de-datos.-clustering" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>En esta sección vamos a aplicar los distintos procedimientos de análisis de datos vistos a lo largo de la asignatura. Para ello, usaremos el archivo que exportamos en capítulos anteriores: android-simplified.csv.</p>
+<p>En este segundo capítulo trateremos sobre las clustering.</p>
+<div id="clustering" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Clustering<a href="análisis-de-datos.-clustering.html#clustering" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para aplicar clustering necesitamos de valores numéricos, al contrario de lo que hemos tenido que tratar al buscar reglas de asociación. Vamos a intentar establecer grupos entre los virus subidos dependiendo de ciertos criterios.</p>
+<p>Para agrupar en clusters, usaremos los paquetes <strong><em>cluster</em></strong> y <strong><em>factoextra</em></strong>:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="análisis-de-datos.-clustering.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<span id="cb52-2"><a href="análisis-de-datos.-clustering.html#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span></code></pre></div>
+<div id="elección-de-atributos-2" class="section level3 hasAnchor" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Elección de atributos<a href="análisis-de-datos.-clustering.html#elección-de-atributos-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Para poder aplicar clustering, debemos primeramente escoger los atributos que queremos que formen parte del conjunto a comparar. El algoritmo kmeans se encargará de establecer los grupos</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="análisis-de-datos.-clustering.html#cb53-1" aria-hidden="true" tabindex="-1"></a>android <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;android-simplified.csv&quot;</span>)</span>
+<span id="cb53-2"><a href="análisis-de-datos.-clustering.html#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="análisis-de-datos.-clustering.html#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Vamos a eliminar las fechas, el país y el resultado de los escaneos</span></span>
+<span id="cb53-4"><a href="análisis-de-datos.-clustering.html#cb53-4" aria-hidden="true" tabindex="-1"></a>android <span class="ot">&lt;-</span> android <span class="sc">%&gt;%</span></span>
+<span id="cb53-5"><a href="análisis-de-datos.-clustering.html#cb53-5" aria-hidden="true" tabindex="-1"></a>           <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(scan_date, first_seen, last_seen, submission.submitter_country, additional_info.exiftool.FileType,<span class="fu">contains</span>(<span class="st">&quot;.result&quot;</span>)))</span></code></pre></div>
+</div>
+<div id="otros-tratamientos-1" class="section level3 hasAnchor" number="5.1.2">
+<h3><span class="header-section-number">5.1.2</span> Otros tratamientos<a href="análisis-de-datos.-clustering.html#otros-tratamientos-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Vamos a modificar los valores NA, que se encuentran en la columna TargetSDKVersion (Version de Android), por la media truncada del resto de valores de la columna</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="análisis-de-datos.-clustering.html#cb54-1" aria-hidden="true" tabindex="-1"></a>android <span class="ot">&lt;-</span> android <span class="sc">%&gt;%</span></span>
+<span id="cb54-2"><a href="análisis-de-datos.-clustering.html#cb54-2" aria-hidden="true" tabindex="-1"></a>           <span class="fu">mutate</span>(<span class="at">additional_info.androguard.TargetSdkVersion=</span></span>
+<span id="cb54-3"><a href="análisis-de-datos.-clustering.html#cb54-3" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">ifelse</span>(<span class="fu">is.na</span>(additional_info.androguard.TargetSdkVersion),<span class="fu">trunc</span>(<span class="fu">mean</span>(additional_info.androguard.TargetSdkVersion, <span class="at">na.rm=</span><span class="cn">TRUE</span>)),</span>
+<span id="cb54-4"><a href="análisis-de-datos.-clustering.html#cb54-4" aria-hidden="true" tabindex="-1"></a>                                      additional_info.androguard.TargetSdkVersion))</span></code></pre></div>
+<p>El resultado final que hemos obtenido en el dataset que usaremos para aplicar el algoritmo kmeans es el siguiente:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="análisis-de-datos.-clustering.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paged_table</span>(android)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["...1"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["total"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["size"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["times_submitted"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["harmless_votes"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["malicious_votes"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["positives"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["additional_info.androguard.TargetSdkVersion"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"61","3":"1956125","4":"1","5":"0","6":"0","7":"20","8":"22"},{"1":"2","2":"61","3":"2667641","4":"1","5":"0","6":"0","7":"20","8":"22"},{"1":"3","2":"61","3":"3998656","4":"1","5":"0","6":"0","7":"18","8":"28"},{"1":"4","2":"64","3":"500276","4":"263","5":"18","6":"13","7":"26","8":"17"},{"1":"5","2":"62","3":"1956125","4":"1","5":"0","6":"0","7":"20","8":"22"},{"1":"6","2":"61","3":"4137920","4":"1","5":"0","6":"0","7":"18","8":"28"},{"1":"7","2":"61","3":"3031864","4":"2","5":"0","6":"0","7":"15","8":"23"},{"1":"8","2":"60","3":"2669106","4":"1","5":"0","6":"0","7":"20","8":"22"},{"1":"9","2":"60","3":"2669106","4":"1","5":"0","6":"0","7":"21","8":"22"},{"1":"10","2":"60","3":"5884","4":"4","5":"0","6":"0","7":"25","8":"23"},{"1":"11","2":"62","3":"3035859","4":"2","5":"0","6":"0","7":"24","8":"29"},{"1":"12","2":"61","3":"2669106","4":"1","5":"0","6":"0","7":"19","8":"22"},{"1":"13","2":"63","3":"15202016","4":"1","5":"0","6":"0","7":"17","8":"22"},{"1":"14","2":"63","3":"8041344","4":"1","5":"0","6":"0","7":"17","8":"28"},{"1":"15","2":"59","3":"307908","4":"11","5":"0","6":"0","7":"20","8":"23"},{"1":"16","2":"63","3":"20353542","4":"1","5":"0","6":"0","7":"22","8":"26"},{"1":"17","2":"62","3":"6122860","4":"2","5":"0","6":"0","7":"18","8":"29"},{"1":"18","2":"58","3":"4804233","4":"1","5":"0","6":"0","7":"27","8":"21"},{"1":"19","2":"60","3":"1955983","4":"1","5":"0","6":"0","7":"19","8":"22"},{"1":"20","2":"56","3":"48204","4":"2","5":"0","6":"0","7":"20","8":"23"},{"1":"21","2":"53","3":"366676","4":"2","5":"0","6":"0","7":"21","8":"23"},{"1":"22","2":"62","3":"2669106","4":"1","5":"0","6":"0","7":"22","8":"22"},{"1":"23","2":"59","3":"1674660","4":"20","5":"0","6":"0","7":"25","8":"23"},{"1":"24","2":"59","3":"424720","4":"2","5":"0","6":"0","7":"20","8":"23"},{"1":"25","2":"63","3":"394574","4":"18","5":"0","6":"0","7":"21","8":"23"},{"1":"26","2":"59","3":"5888","4":"2","5":"0","6":"0","7":"25","8":"23"},{"1":"27","2":"60","3":"7116","4":"2","5":"0","6":"0","7":"17","8":"23"},{"1":"28","2":"59","3":"17476","4":"3","5":"0","6":"0","7":"25","8":"23"},{"1":"29","2":"63","3":"7032582","4":"255","5":"0","6":"0","7":"19","8":"29"},{"1":"30","2":"59","3":"6004","4":"3","5":"0","6":"0","7":"26","8":"23"},{"1":"31","2":"63","3":"8801847","4":"1","5":"0","6":"0","7":"15","8":"28"},{"1":"32","2":"59","3":"774024","4":"2","5":"0","6":"0","7":"28","8":"23"},{"1":"33","2":"56","3":"4804234","4":"1","5":"0","6":"0","7":"26","8":"21"},{"1":"34","2":"61","3":"30711904","4":"1","5":"0","6":"0","7":"18","8":"28"},{"1":"35","2":"62","3":"4506129","4":"2","5":"0","6":"0","7":"29","8":"30"},{"1":"36","2":"59","3":"6160","4":"4","5":"0","6":"0","7":"22","8":"23"},{"1":"37","2":"60","3":"2947134","4":"1","5":"0","6":"0","7":"20","8":"21"},{"1":"38","2":"62","3":"6122893","4":"2","5":"0","6":"0","7":"21","8":"29"},{"1":"39","2":"62","3":"1956249","4":"1","5":"0","6":"0","7":"18","8":"22"},{"1":"40","2":"64","3":"3903113","4":"2","5":"0","6":"1","7":"37","8":"26"},{"1":"41","2":"62","3":"543672","4":"1","5":"0","6":"0","7":"24","8":"28"},{"1":"42","2":"59","3":"5884","4":"2","5":"0","6":"0","7":"25","8":"23"},{"1":"43","2":"61","3":"6126959","4":"2","5":"0","6":"0","7":"20","8":"29"},{"1":"44","2":"59","3":"1156","4":"23","5":"0","6":"0","7":"25","8":"23"},{"1":"45","2":"62","3":"860113","4":"16","5":"0","6":"0","7":"36","8":"10"},{"1":"46","2":"60","3":"2669106","4":"1","5":"0","6":"0","7":"19","8":"22"},{"1":"47","2":"62","3":"1955964","4":"1","5":"0","6":"0","7":"21","8":"22"},{"1":"48","2":"61","3":"2669106","4":"1","5":"0","6":"0","7":"20","8":"22"},{"1":"49","2":"60","3":"15721098","4":"1","5":"0","6":"0","7":"16","8":"22"},{"1":"50","2":"62","3":"63071192","4":"7","5":"0","6":"0","7":"15","8":"26"},{"1":"51","2":"63","3":"4804236","4":"1","5":"0","6":"0","7":"27","8":"21"},{"1":"52","2":"61","3":"601452","4":"1","5":"0","6":"0","7":"25","8":"22"},{"1":"53","2":"59","3":"3035852","4":"2","5":"0","6":"0","7":"21","8":"29"},{"1":"54","2":"61","3":"1956174","4":"1","5":"0","6":"0","7":"20","8":"22"},{"1":"55","2":"63","3":"14898946","4":"1","5":"0","6":"0","7":"15","8":"22"},{"1":"56","2":"62","3":"10186","4":"1","5":"0","6":"0","7":"30","8":"17"},{"1":"57","2":"59","3":"1156","4":"5","5":"0","6":"0","7":"25","8":"23"},{"1":"58","2":"63","3":"15410862","4":"1","5":"0","6":"0","7":"18","8":"22"},{"1":"59","2":"60","3":"153424","4":"2","5":"0","6":"0","7":"26","8":"23"},{"1":"60","2":"64","3":"3394334","4":"5","5":"0","6":"0","7":"26","8":"29"},{"1":"61","2":"59","3":"214120","4":"4","5":"0","6":"0","7":"22","8":"23"},{"1":"62","2":"59","3":"17984","4":"2","5":"0","6":"0","7":"23","8":"23"},{"1":"63","2":"59","3":"7108008","4":"3","5":"0","6":"0","7":"16","8":"23"},{"1":"64","2":"60","3":"107759215","4":"1","5":"0","6":"0","7":"17","8":"30"},{"1":"65","2":"61","3":"183459","4":"11","5":"0","6":"0","7":"31","8":"23"},{"1":"66","2":"60","3":"2669106","4":"1","5":"0","6":"0","7":"19","8":"22"},{"1":"67","2":"62","3":"1956249","4":"1","5":"0","6":"0","7":"17","8":"22"},{"1":"68","2":"63","3":"3758923","4":"1","5":"0","6":"0","7":"20","8":"29"},{"1":"69","2":"59","3":"1998932","4":"1","5":"0","6":"0","7":"16","8":"23"},{"1":"70","2":"62","3":"6122862","4":"2","5":"0","6":"1","7":"23","8":"29"},{"1":"71","2":"59","3":"5904","4":"4","5":"0","6":"0","7":"23","8":"23"},{"1":"72","2":"59","3":"2111216","4":"2","5":"0","6":"0","7":"16","8":"23"},{"1":"73","2":"58","3":"621512","4":"3","5":"0","6":"0","7":"26","8":"23"},{"1":"74","2":"59","3":"2669106","4":"1","5":"0","6":"0","7":"17","8":"22"},{"1":"75","2":"63","3":"14498070","4":"6","5":"0","6":"0","7":"21","8":"15"},{"1":"76","2":"59","3":"7612932","4":"2","5":"0","6":"0","7":"17","8":"23"},{"1":"77","2":"62","3":"2669106","4":"1","5":"0","6":"0","7":"20","8":"22"},{"1":"78","2":"62","3":"699499","4":"1","5":"0","6":"0","7":"17","8":"22"},{"1":"79","2":"58","3":"4531604","4":"20","5":"0","6":"0","7":"15","8":"23"},{"1":"80","2":"60","3":"586168","4":"33","5":"0","6":"0","7":"27","8":"23"},{"1":"81","2":"63","3":"8728803","4":"1","5":"0","6":"0","7":"16","8":"28"},{"1":"82","2":"62","3":"2249530","4":"1","5":"0","6":"0","7":"16","8":"29"},{"1":"83","2":"58","3":"730228","4":"2","5":"0","6":"0","7":"15","8":"23"},{"1":"84","2":"61","3":"2669106","4":"1","5":"0","6":"0","7":"21","8":"22"},{"1":"85","2":"61","3":"178355426","4":"1","5":"0","6":"0","7":"15","8":"29"},{"1":"86","2":"59","3":"20316","4":"1","5":"0","6":"0","7":"19","8":"23"},{"1":"87","2":"60","3":"332868","4":"3","5":"0","6":"0","7":"23","8":"23"},{"1":"88","2":"62","3":"773772","4":"1","5":"0","6":"0","7":"35","8":"22"},{"1":"89","2":"59","3":"6012","4":"2","5":"0","6":"0","7":"27","8":"23"},{"1":"90","2":"63","3":"14941837","4":"1","5":"0","6":"0","7":"17","8":"22"},{"1":"91","2":"59","3":"1152","4":"29","5":"0","6":"0","7":"26","8":"23"},{"1":"92","2":"59","3":"1914076","4":"5","5":"0","6":"0","7":"22","8":"23"},{"1":"93","2":"60","3":"560344","4":"2","5":"0","6":"0","7":"25","8":"23"},{"1":"94","2":"60","3":"5884","4":"2","5":"0","6":"0","7":"27","8":"23"},{"1":"95","2":"63","3":"4804230","4":"1","5":"0","6":"0","7":"28","8":"21"},{"1":"96","2":"59","3":"6000","4":"4","5":"0","6":"0","7":"27","8":"23"},{"1":"97","2":"58","3":"674204","4":"3","5":"0","6":"0","7":"15","8":"23"},{"1":"98","2":"60","3":"2678380","4":"1","5":"0","6":"0","7":"20","8":"22"},{"1":"99","2":"59","3":"2228618","4":"1","5":"0","6":"0","7":"16","8":"29"},{"1":"100","2":"62","3":"2669106","4":"1","5":"0","6":"0","7":"21","8":"22"},{"1":"101","2":"60","3":"356169","4":"1","5":"0","6":"0","7":"21","8":"21"},{"1":"102","2":"60","3":"5996","4":"3","5":"0","6":"0","7":"24","8":"23"},{"1":"103","2":"63","3":"53604603","4":"3","5":"0","6":"0","7":"16","8":"27"},{"1":"104","2":"58","3":"787644","4":"2","5":"0","6":"0","7":"16","8":"23"},{"1":"105","2":"63","3":"21035680","4":"1","5":"0","6":"0","7":"23","8":"26"},{"1":"106","2":"53","3":"2669106","4":"1","5":"0","6":"0","7":"17","8":"22"},{"1":"107","2":"61","3":"2669106","4":"1","5":"0","6":"0","7":"23","8":"22"},{"1":"108","2":"62","3":"14898948","4":"1","5":"0","6":"0","7":"17","8":"22"},{"1":"109","2":"62","3":"1975464","4":"1","5":"0","6":"0","7":"19","8":"22"},{"1":"110","2":"60","3":"6122851","4":"4","5":"0","6":"0","7":"19","8":"29"},{"1":"111","2":"59","3":"4385200","4":"29","5":"0","6":"0","7":"21","8":"23"},{"1":"112","2":"59","3":"3916196","4":"1","5":"0","6":"0","7":"15","8":"23"},{"1":"113","2":"59","3":"2669106","4":"1","5":"0","6":"0","7":"20","8":"22"},{"1":"114","2":"61","3":"2249617","4":"1","5":"0","6":"0","7":"16","8":"29"},{"1":"115","2":"62","3":"2111871","4":"1","5":"0","6":"0","7":"23","8":"22"},{"1":"116","2":"59","3":"5988","4":"3","5":"0","6":"0","7":"24","8":"23"},{"1":"117","2":"60","3":"5892","4":"2","5":"0","6":"0","7":"25","8":"23"},{"1":"118","2":"59","3":"586008","4":"1","5":"0","6":"0","7":"17","8":"23"},{"1":"119","2":"63","3":"14898951","4":"1","5":"0","6":"0","7":"17","8":"22"},{"1":"120","2":"59","3":"659384","4":"2","5":"0","6":"0","7":"23","8":"23"},{"1":"121","2":"62","3":"2669106","4":"1","5":"0","6":"0","7":"17","8":"22"},{"1":"122","2":"59","3":"6008","4":"5","5":"0","6":"0","7":"28","8":"23"},{"1":"123","2":"59","3":"6040","4":"2","5":"0","6":"0","7":"21","8":"23"},{"1":"124","2":"62","3":"1719960","4":"1","5":"0","6":"0","7":"17","8":"27"},{"1":"125","2":"63","3":"3390238","4":"2","5":"0","6":"0","7":"26","8":"29"},{"1":"126","2":"56","3":"2669106","4":"1","5":"0","6":"0","7":"17","8":"22"},{"1":"127","2":"62","3":"2667888","4":"1","5":"0","6":"0","7":"20","8":"22"},{"1":"128","2":"61","3":"2669106","4":"1","5":"0","6":"0","7":"21","8":"22"},{"1":"129","2":"60","3":"2667641","4":"1","5":"0","6":"0","7":"22","8":"22"},{"1":"130","2":"62","3":"2669106","4":"1","5":"0","6":"0","7":"21","8":"22"},{"1":"131","2":"63","3":"14909972","4":"1","5":"0","6":"0","7":"16","8":"22"},{"1":"132","2":"59","3":"2150408","4":"3","5":"0","6":"0","7":"17","8":"23"},{"1":"133","2":"62","3":"1956125","4":"1","5":"0","6":"0","7":"20","8":"22"},{"1":"134","2":"60","3":"2669106","4":"1","5":"0","6":"0","7":"21","8":"22"},{"1":"135","2":"62","3":"3357189","4":"2","5":"0","6":"0","7":"23","8":"29"},{"1":"136","2":"64","3":"3421363","4":"1","5":"0","6":"0","7":"28","8":"26"},{"1":"137","2":"58","3":"10898768","4":"2","5":"0","6":"0","7":"17","8":"23"},{"1":"138","2":"64","3":"3394319","4":"2","5":"0","6":"0","7":"26","8":"29"},{"1":"139","2":"58","3":"2669106","4":"1","5":"0","6":"0","7":"18","8":"22"},{"1":"140","2":"59","3":"1913112","4":"4","5":"0","6":"0","7":"20","8":"23"},{"1":"141","2":"62","3":"2667641","4":"1","5":"0","6":"0","7":"21","8":"22"},{"1":"142","2":"60","3":"5996","4":"5","5":"0","6":"0","7":"28","8":"23"},{"1":"143","2":"52","3":"5900","4":"3","5":"0","6":"0","7":"20","8":"23"},{"1":"144","2":"57","3":"4804230","4":"1","5":"0","6":"0","7":"23","8":"21"},{"1":"145","2":"62","3":"1956297","4":"1","5":"0","6":"0","7":"20","8":"22"},{"1":"146","2":"60","3":"5880","4":"2","5":"0","6":"0","7":"26","8":"23"},{"1":"147","2":"60","3":"2669106","4":"1","5":"0","6":"0","7":"21","8":"22"},{"1":"148","2":"62","3":"2669106","4":"1","5":"0","6":"0","7":"19","8":"22"},{"1":"149","2":"59","3":"6000","4":"6","5":"0","6":"0","7":"25","8":"23"},{"1":"150","2":"62","3":"4804234","4":"1","5":"0","6":"0","7":"28","8":"21"},{"1":"151","2":"59","3":"5888","4":"3","5":"0","6":"0","7":"26","8":"23"},{"1":"152","2":"57","3":"7225742","4":"2","5":"0","6":"0","7":"21","8":"22"},{"1":"153","2":"61","3":"2669106","4":"1","5":"0","6":"0","7":"20","8":"22"},{"1":"154","2":"61","3":"1956101","4":"1","5":"0","6":"0","7":"18","8":"22"},{"1":"155","2":"58","3":"34424","4":"4","5":"0","6":"0","7":"19","8":"23"},{"1":"156","2":"62","3":"6122901","4":"2","5":"0","6":"0","7":"26","8":"29"},{"1":"157","2":"60","3":"2669106","4":"1","5":"0","6":"0","7":"20","8":"22"},{"1":"158","2":"62","3":"8043761","4":"1","5":"0","6":"0","7":"19","8":"28"},{"1":"159","2":"61","3":"2669106","4":"1","5":"0","6":"0","7":"22","8":"22"},{"1":"160","2":"62","3":"824232","4":"1","5":"0","6":"0","7":"36","8":"22"},{"1":"161","2":"62","3":"6122902","4":"2","5":"0","6":"0","7":"27","8":"29"},{"1":"162","2":"62","3":"1928652","4":"3543","5":"0","6":"0","7":"16","8":"26"},{"1":"163","2":"61","3":"1955964","4":"1","5":"0","6":"0","7":"20","8":"22"},{"1":"164","2":"63","3":"3394284","4":"5","5":"0","6":"0","7":"25","8":"29"},{"1":"165","2":"62","3":"1975464","4":"1","5":"0","6":"0","7":"19","8":"22"},{"1":"166","2":"63","3":"4804234","4":"1","5":"0","6":"0","7":"31","8":"21"},{"1":"167","2":"61","3":"4804234","4":"1","5":"0","6":"0","7":"28","8":"21"},{"1":"168","2":"61","3":"1467913","4":"1","5":"0","6":"0","7":"22","8":"30"},{"1":"169","2":"61","3":"2669106","4":"1","5":"0","6":"0","7":"20","8":"22"},{"1":"170","2":"59","3":"6392","4":"6","5":"0","6":"0","7":"28","8":"23"},{"1":"171","2":"61","3":"4804233","4":"1","5":"0","6":"0","7":"29","8":"21"},{"1":"172","2":"62","3":"2667888","4":"1","5":"0","6":"0","7":"22","8":"22"},{"1":"173","2":"60","3":"2669106","4":"1","5":"0","6":"0","7":"20","8":"22"},{"1":"174","2":"60","3":"2795296","4":"2","5":"0","6":"0","7":"25","8":"23"},{"1":"175","2":"63","3":"15645802","4":"1","5":"0","6":"0","7":"16","8":"22"},{"1":"176","2":"60","3":"4804237","4":"1","5":"0","6":"0","7":"27","8":"21"},{"1":"177","2":"62","3":"1956078","4":"1","5":"0","6":"0","7":"20","8":"22"},{"1":"178","2":"59","3":"11212","4":"18","5":"0","6":"0","7":"21","8":"23"},{"1":"179","2":"63","3":"4804234","4":"1","5":"0","6":"0","7":"29","8":"21"},{"1":"180","2":"62","3":"1513084","4":"1","5":"0","6":"0","7":"17","8":"26"},{"1":"181","2":"62","3":"1629650","4":"3","5":"0","6":"0","7":"15","8":"22"},{"1":"182","2":"62","3":"4804234","4":"1","5":"0","6":"0","7":"29","8":"21"},{"1":"183","2":"62","3":"2369760","4":"1","5":"0","6":"0","7":"19","8":"29"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="análisis-de-datos.-clustering.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(android) <span class="co"># Hemos obtenido una tabla de 183 virus y 8 atributos, todos valores numéricos</span></span></code></pre></div>
+<pre><code>## [1] 183   8</code></pre>
+</div>
+<div id="agrupación-en-clusters.-iteración-1" class="section level3 hasAnchor" number="5.1.3">
+<h3><span class="header-section-number">5.1.3</span> Agrupación en clusters. Iteración 1<a href="análisis-de-datos.-clustering.html#agrupación-en-clusters.-iteración-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Vamos a usar el algoritmo kmeans para encontrar, en una primera iteración, los grupos mejor representados. Para ello, vamos a calcular previamente cuál sería el número óptimo de clusters:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="análisis-de-datos.-clustering.html#cb58-1" aria-hidden="true" tabindex="-1"></a>android <span class="sc">%&gt;%</span></span>
+<span id="cb58-2"><a href="análisis-de-datos.-clustering.html#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fviz_nbclust</span>(<span class="at">FUNcluster =</span> kmeans, <span class="at">method =</span> <span class="st">&quot;wss&quot;</span>,</span>
+<span id="cb58-3"><a href="análisis-de-datos.-clustering.html#cb58-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">diss =</span> <span class="fu">dist</span>(android, <span class="at">method =</span> <span class="st">&quot;manhattan&quot;</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>La recta se aplana cuando el numero de clusters es 5, por lo que el error cometido de usar más clusters es irrelevante.</p>
+<p>Vamos a ejecutar ahora el algoritmo kmeans para 5 clusters:</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="análisis-de-datos.-clustering.html#cb59-1" aria-hidden="true" tabindex="-1"></a>grpAnd <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(android, <span class="at">centers =</span> <span class="dv">5</span>)</span>
+<span id="cb59-2"><a href="análisis-de-datos.-clustering.html#cb59-2" aria-hidden="true" tabindex="-1"></a>grpAnd</span></code></pre></div>
+<pre><code>## K-means clustering with 5 clusters of sizes 79, 14, 3, 86, 1
+## 
+## Cluster means:
+##       ...1    total        size times_submitted harmless_votes malicious_votes
+## 1 96.83544 60.88608   4044664.1        5.189873      0.0000000      0.02531646
+## 2 83.21429 62.21429  16716171.1        1.428571      0.0000000      0.00000000
+## 3 72.33333 61.66667  74811670.0        3.666667      0.0000000      0.00000000
+## 4 89.75581 59.96512    842579.7       48.232558      0.2093023      0.15116279
+## 5 85.00000 61.00000 178355426.0        1.000000      0.0000000      0.00000000
+##   positives additional_info.androguard.TargetSdkVersion
+## 1  21.75949                                    24.00000
+## 2  17.85714                                    22.57143
+## 3  16.00000                                    27.66667
+## 4  22.23256                                    22.98837
+## 5  15.00000                                    29.00000
+## 
+## Clustering vector:
+##   [1] 4 1 1 4 4 1 1 1 1 4 1 1 2 1 4 2 1 1 4 4 4 1 4 4 4 4 4 4 1 4 1 4 1 2 1 4 1
+##  [38] 1 4 1 4 4 1 4 4 1 4 1 2 3 1 4 1 4 2 4 4 2 4 1 4 4 1 3 4 1 4 1 4 1 4 4 4 1
+##  [75] 2 1 1 4 1 4 1 4 4 1 5 4 4 4 4 2 4 4 4 4 1 4 4 1 4 1 4 4 3 4 2 1 1 2 4 1 1
+## [112] 1 1 4 4 4 4 4 2 4 1 4 4 4 1 1 1 1 1 1 2 4 4 1 1 1 2 1 1 4 1 4 4 1 4 4 1 1
+## [149] 4 1 4 1 1 4 4 1 1 1 1 4 1 4 4 1 4 1 1 4 1 4 1 1 1 1 2 1 4 4 1 4 4 1 4
+## 
+## Within cluster sum of squares by cluster:
+## [1] 2.263894e+14 2.889812e+14 1.673119e+15 6.316953e+13 0.000000e+00
+##  (between_SS / total_SS =  95.5 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
+## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
+<p>Hemos obtenido un total de 5 clusters de tamaño 79, 14, 3, 86, 1.</p>
+<p>Vamos a visualizar los virus según el cluster:</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="análisis-de-datos.-clustering.html#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(grpAnd, <span class="at">data=</span>android)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>En la grafica podemos encontrar valores muy dispersos como la fila 4, 45, 40, 70, 162, 85, 103, 50 y 64.</p>
+<p>Vamos a prescindir de ellos para encontrar grupos más cercanos entre ellos. Al eliminar estas filas, las columnas <em>malicious_votes</em> y <em>harmless_votes</em> son costantes, por lo que las vamos a eliminar.</p>
+</div>
+<div id="agrupación-en-clusters.-iteración-2" class="section level3 hasAnchor" number="5.1.4">
+<h3><span class="header-section-number">5.1.4</span> Agrupación en clusters. Iteración 2<a href="análisis-de-datos.-clustering.html#agrupación-en-clusters.-iteración-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Eliminamos las columnas con datos dispares:</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="análisis-de-datos.-clustering.html#cb62-1" aria-hidden="true" tabindex="-1"></a>android <span class="ot">&lt;-</span> android <span class="sc">%&gt;%</span></span>
+<span id="cb62-2"><a href="análisis-de-datos.-clustering.html#cb62-2" aria-hidden="true" tabindex="-1"></a>            <span class="fu">filter</span>(<span class="sc">!</span>...<span class="dv">1</span>  <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">45</span>, <span class="dv">40</span>, <span class="dv">70</span>,  <span class="dv">162</span>, <span class="dv">85</span>, <span class="dv">103</span>, <span class="dv">50</span>, <span class="dv">64</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb62-3"><a href="análisis-de-datos.-clustering.html#cb62-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(harmless_votes,malicious_votes))</span></code></pre></div>
+<p>Vamos a repetir el proceso de buscar el mejor numero de clusters:</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="análisis-de-datos.-clustering.html#cb63-1" aria-hidden="true" tabindex="-1"></a>android <span class="sc">%&gt;%</span></span>
+<span id="cb63-2"><a href="análisis-de-datos.-clustering.html#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fviz_nbclust</span>(<span class="at">FUNcluster =</span> kmeans, <span class="at">method =</span> <span class="st">&quot;wss&quot;</span>,</span>
+<span id="cb63-3"><a href="análisis-de-datos.-clustering.html#cb63-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">diss =</span> <span class="fu">dist</span>(android, <span class="at">method =</span> <span class="st">&quot;manhattan&quot;</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<p>En este caso, el número de clusters óptimo se ha reducido a 3. Procedamos a realizar la agrupación:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="análisis-de-datos.-clustering.html#cb64-1" aria-hidden="true" tabindex="-1"></a>grpAnd <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(android, <span class="at">centers =</span> <span class="dv">4</span>)</span>
+<span id="cb64-2"><a href="análisis-de-datos.-clustering.html#cb64-2" aria-hidden="true" tabindex="-1"></a>grpAnd</span></code></pre></div>
+<pre><code>## K-means clustering with 4 clusters of sizes 77, 54, 13, 30
+## 
+## Cluster means:
+##        ...1    total       size times_submitted positives
+## 1 100.07792 60.87013  2543105.7        1.597403  19.98701
+## 2  82.51852 59.25926   230482.3        4.925926  23.81481
+## 3  79.07692 62.53846 17163663.7        1.384615  17.92308
+## 4 100.76667 60.80000  6043629.6       11.500000  22.83333
+##   additional_info.androguard.TargetSdkVersion
+## 1                                    23.62338
+## 2                                    22.87037
+## 3                                    22.53846
+## 4                                    24.46667
+## 
+## Clustering vector:
+##   [1] 1 1 1 1 1 1 1 1 2 1 1 3 4 2 3 4 4 1 2 2 1 1 2 2 2 2 2 4 2 4 2 4 3 4 2 1 4
+##  [38] 1 2 2 4 2 1 1 1 3 4 2 1 1 3 2 2 3 2 1 2 2 4 2 1 1 1 1 2 1 2 1 3 4 1 2 4 2
+##  [75] 4 1 2 1 2 2 2 2 3 2 1 2 2 4 2 2 1 1 1 2 2 2 3 1 1 3 1 4 4 1 1 1 1 2 2 2 3
+## [112] 2 1 2 2 1 1 1 1 1 1 1 3 1 1 1 1 1 4 1 1 1 1 2 2 4 1 2 1 1 2 4 2 4 1 1 2 4
+## [149] 1 4 1 2 4 1 1 1 4 4 1 1 2 4 1 1 1 3 4 1 2 4 1 1 4 1
+## 
+## Within cluster sum of squares by cluster:
+## [1] 2.500585e+13 4.497025e+12 2.525358e+14 7.822480e+13
+##  (between_SS / total_SS =  90.1 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
+## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
+<p>Hemos obtenido un total de 3 clusters de tamaño 77, 54, 30 y 13.</p>
+<p>Vamos a visualizar los virus según el cluster:</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="análisis-de-datos.-clustering.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(grpAnd, <span class="at">data=</span>android)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p>Hemos obtenido por tanto 4 grupos bien diferenciados, que se pueden usar para buscar patrones entre ellos como versiones de Android afectadas, positivos totales…</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="análisis-de-datos.-asociación.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="análisis-de-datos.-fca.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

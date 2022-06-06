@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 3 Visualización de datos | Proyecto Book LCC</title>
+  <meta name="description" content="Este book ha sido creado para un proyecto de la asignatura Laboratorio de Computación Científica del Grado de Ingeniería Informática en la Universidad de Málaga" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 3 Visualización de datos | Proyecto Book LCC" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Este book ha sido creado para un proyecto de la asignatura Laboratorio de Computación Científica del Grado de Ingeniería Informática en la Universidad de Málaga" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 3 Visualización de datos | Proyecto Book LCC" />
+  
+  <meta name="twitter:description" content="Este book ha sido creado para un proyecto de la asignatura Laboratorio de Computación Científica del Grado de Ingeniería Informática en la Universidad de Málaga" />
+  
+
+<meta name="author" content="Antonio Lara Gutiérrez" />
+
+
+<meta name="date" content="2022-06-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="análisis-de-datos-de-virus.html"/>
+<link rel="next" href="análisis-de-datos.-asociación.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Proyecto Book LCC</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introducción</a></li>
+<li class="chapter" data-level="2" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html"><i class="fa fa-check"></i><b>2</b> Análisis de datos de virus</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html#metodologia"><i class="fa fa-check"></i><b>2.1</b> Metodologia</a></li>
+<li class="chapter" data-level="2.2" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html#trabajar-con-archivos-json"><i class="fa fa-check"></i><b>2.2</b> Trabajar con archivos JSON</a></li>
+<li class="chapter" data-level="2.3" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html#creación-del-dataset"><i class="fa fa-check"></i><b>2.3</b> Creación del dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html"><i class="fa fa-check"></i><b>3</b> Visualización de datos</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#filtrado-de-información"><i class="fa fa-check"></i><b>3.1</b> Filtrado de información</a></li>
+<li class="chapter" data-level="3.2" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#visualización-de-los-datos"><i class="fa fa-check"></i><b>3.2</b> Visualización de los datos</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#visualizacion_inicial"><i class="fa fa-check"></i><b>3.2.1</b> Visualización de positivos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html"><i class="fa fa-check"></i><b>4</b> Análisis de datos. Asociación</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html#reglas-de-asociación"><i class="fa fa-check"></i><b>4.1</b> Reglas de asociación</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html#iteración-1"><i class="fa fa-check"></i><b>4.1.1</b> Iteración 1</a></li>
+<li class="chapter" data-level="4.1.2" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html#iteración-2"><i class="fa fa-check"></i><b>4.1.2</b> Iteración 2</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html"><i class="fa fa-check"></i><b>5</b> Análisis de datos. Clustering</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#clustering"><i class="fa fa-check"></i><b>5.1</b> Clustering</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#elección-de-atributos-2"><i class="fa fa-check"></i><b>5.1.1</b> Elección de atributos</a></li>
+<li class="chapter" data-level="5.1.2" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#otros-tratamientos-1"><i class="fa fa-check"></i><b>5.1.2</b> Otros tratamientos</a></li>
+<li class="chapter" data-level="5.1.3" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#agrupación-en-clusters.-iteración-1"><i class="fa fa-check"></i><b>5.1.3</b> Agrupación en clusters. Iteración 1</a></li>
+<li class="chapter" data-level="5.1.4" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#agrupación-en-clusters.-iteración-2"><i class="fa fa-check"></i><b>5.1.4</b> Agrupación en clusters. Iteración 2</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html"><i class="fa fa-check"></i><b>6</b> Análisis de datos. FCA</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#análisis-de-conceptos-formales"><i class="fa fa-check"></i><b>6.1</b> Análisis de conceptos formales</a></li>
+<li class="chapter" data-level="6.2" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#trabajo-previo"><i class="fa fa-check"></i><b>6.2</b> Trabajo previo</a></li>
+<li class="chapter" data-level="6.3" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#creación-del-objeto-formal"><i class="fa fa-check"></i><b>6.3</b> Creación del objeto formal</a></li>
+<li class="chapter" data-level="6.4" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#búsqueda-de-información-por-clarificación-y-reducción"><i class="fa fa-check"></i><b>6.4</b> Búsqueda de información por clarificación y reducción</a></li>
+<li class="chapter" data-level="6.5" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#extracción-de-conceptos-e-implicaciones"><i class="fa fa-check"></i><b>6.5</b> Extracción de conceptos e implicaciones</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#conceptos"><i class="fa fa-check"></i><b>6.5.1</b> Conceptos</a></li>
+<li class="chapter" data-level="6.5.2" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#implicaciones"><i class="fa fa-check"></i><b>6.5.2</b> Implicaciones</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="análisis-de-datos.-regresion.html"><a href="análisis-de-datos.-regresion.html"><i class="fa fa-check"></i><b>7</b> Análisis de datos. Regresion</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="análisis-de-datos.-regresion.html"><a href="análisis-de-datos.-regresion.html#regresión"><i class="fa fa-check"></i><b>7.1</b> Regresión</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>8</b> Conclusiones</a></li>
+<li class="chapter" data-level="9" data-path="text-mining-en-app-de-mensajería.html"><a href="text-mining-en-app-de-mensajería.html"><i class="fa fa-check"></i><b>9</b> Text Mining en app de mensajería</a></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/antoniol00/Book-Virus-Total" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Proyecto Book LCC</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="visualización-de-datos" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Capítulo 3</span> Visualización de datos<a href="visualización-de-datos.html#visualización-de-datos" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>En este capítulo vamos a realizar un primer análisis exploratorio sobre los atributos principales que usaremos en el próximo capítulo de análisis de datos, junto con una visualización inicial de los datos con los que contamos</p>
+<div id="filtrado-de-información" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Filtrado de información<a href="visualización-de-datos.html#filtrado-de-información" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Partiendo del dataset procesado y guardado en el fichero android.csv, nos encontramos con la siguiente información:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="visualización-de-datos.html#cb12-1" aria-hidden="true" tabindex="-1"></a>android <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;android.csv&quot;</span>)</span>
+<span id="cb12-2"><a href="visualización-de-datos.html#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="visualización-de-datos.html#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(android) <span class="co"># 183 objetos y 447 atributos</span></span></code></pre></div>
+<pre><code>## [1] 183 447</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="visualización-de-datos.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">colnames</span>(android),<span class="dv">30</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;...1&quot;                         &quot;document.id&quot;                 
+##  [3] &quot;vhash&quot;                        &quot;scan_date&quot;                   
+##  [5] &quot;first_seen&quot;                   &quot;total&quot;                       
+##  [7] &quot;size&quot;                         &quot;authentihash&quot;                
+##  [9] &quot;times_submitted&quot;              &quot;harmless_votes&quot;              
+## [11] &quot;malicious_votes&quot;              &quot;sha256&quot;                      
+## [13] &quot;type&quot;                         &quot;scan_id&quot;                     
+## [15] &quot;unique_sources&quot;               &quot;positives&quot;                   
+## [17] &quot;ssdeep&quot;                       &quot;md5&quot;                         
+## [19] &quot;permalink&quot;                    &quot;sha1&quot;                        
+## [21] &quot;response_code&quot;                &quot;community_reputation&quot;        
+## [23] &quot;verbose_msg&quot;                  &quot;last_seen&quot;                   
+## [25] &quot;additional_info.trid&quot;         &quot;additional_info.magic&quot;       
+## [27] &quot;submission.submitter_region&quot;  &quot;submission.date&quot;             
+## [29] &quot;submission.submitter_country&quot; &quot;submission.filename&quot;</code></pre>
+<p>En estos primeros 30 atributos nos encontramos la información más importante. En el resto de atributos nos aparece información adicionaly el resultado del escaneo con todos los antivirus que han sido probados. En este resultado nos aparece el tipo de virus que ha sido identificado por el motor del antivirus, y aparece en la columna scans.<em>nombreAntivirus</em>.result:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="visualización-de-datos.html#cb16-1" aria-hidden="true" tabindex="-1"></a>android <span class="ot">&lt;-</span> android <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="visualización-de-datos.html#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(scan_date,first_seen,last_seen,total,size,</span>
+<span id="cb16-3"><a href="visualización-de-datos.html#cb16-3" aria-hidden="true" tabindex="-1"></a>         times_submitted,harmless_votes,malicious_votes,positives,</span>
+<span id="cb16-4"><a href="visualización-de-datos.html#cb16-4" aria-hidden="true" tabindex="-1"></a>         submission.submitter_country,additional_info.exiftool.FileType,</span>
+<span id="cb16-5"><a href="visualización-de-datos.html#cb16-5" aria-hidden="true" tabindex="-1"></a>         additional_info.androguard.TargetSdkVersion,</span>
+<span id="cb16-6"><a href="visualización-de-datos.html#cb16-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">contains</span>(<span class="st">&quot;.result&quot;</span>))</span>
+<span id="cb16-7"><a href="visualización-de-datos.html#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="visualización-de-datos.html#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(android,<span class="at">file=</span><span class="st">&quot;android-simplified.csv&quot;</span>)</span></code></pre></div>
+<p>Hemos filtrado toda la información importante y guarda en el fichero android-simplified.csv, que es el que usaremos finalmente en nuestro análisis de datos</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="visualización-de-datos.html#cb17-1" aria-hidden="true" tabindex="-1"></a>android <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;android-simplified.csv&quot;</span>)</span>
+<span id="cb17-2"><a href="visualización-de-datos.html#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="visualización-de-datos.html#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(android) <span class="co"># 183 objetos y 79 atributos</span></span></code></pre></div>
+<pre><code>## [1] 183  79</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="visualización-de-datos.html#cb19-1" aria-hidden="true" tabindex="-1"></a>android <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">&quot;.result&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">dim</span>()</span></code></pre></div>
+<pre><code>## [1] 183  66</code></pre>
+<p>Vemos que hay un total de 66 antivirus distintos usados en el análisis de los archivos:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="visualización-de-datos.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#obtenemos nombre de los antivirus</span></span>
+<span id="cb21-2"><a href="visualización-de-datos.html#cb21-2" aria-hidden="true" tabindex="-1"></a>antivirus <span class="ot">&lt;-</span> <span class="fu">colnames</span>(android)[<span class="fu">grepl</span>(<span class="st">&quot;result$&quot;</span>,<span class="fu">colnames</span>(android))]</span>
+<span id="cb21-3"><a href="visualización-de-datos.html#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="visualización-de-datos.html#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#extraemos nombres, usando stringr</span></span>
+<span id="cb21-5"><a href="visualización-de-datos.html#cb21-5" aria-hidden="true" tabindex="-1"></a>antivirus <span class="sc">%&gt;%</span> <span class="fu">str_replace</span>(<span class="st">&quot;scans.&quot;</span>, <span class="st">&quot;&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">str_replace</span>(<span class="st">&quot;.result&quot;</span>, <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;Bkav&quot;                  &quot;Lionic&quot;                &quot;ClamAV&quot;               
+##  [4] &quot;CMC&quot;                   &quot;CAT-QuickHeal&quot;         &quot;McAfee&quot;               
+##  [7] &quot;ALYac&quot;                 &quot;Malwarebytes&quot;          &quot;VIPRE&quot;                
+## [10] &quot;Sangfor&quot;               &quot;K7AntiVirus&quot;           &quot;Alibaba&quot;              
+## [13] &quot;K7GW&quot;                  &quot;Trustlook&quot;             &quot;Arcabit&quot;              
+## [16] &quot;Baidu&quot;                 &quot;Cyren&quot;                 &quot;SymantecMobileInsight&quot;
+## [19] &quot;Symantec&quot;              &quot;ESET-NOD32&quot;            &quot;TrendMicro-HouseCall&quot; 
+## [22] &quot;Avast&quot;                 &quot;Cynet&quot;                 &quot;Kaspersky&quot;            
+## [25] &quot;BitDefender&quot;           &quot;NANO-Antivirus&quot;        &quot;SUPERAntiSpyware&quot;     
+## [28] &quot;MicroWorld-eScan&quot;      &quot;Rising&quot;                &quot;Ad-Aware&quot;             
+## [31] &quot;Comodo&quot;                &quot;F-Secure&quot;              &quot;DrWeb&quot;                
+## [34] &quot;Zillya&quot;                &quot;TrendMicro&quot;            &quot;McAfee-GW-Edition&quot;    
+## [37] &quot;FireEye&quot;               &quot;Emsisoft&quot;              &quot;Ikarus&quot;               
+## [40] &quot;Avast-Mobile&quot;          &quot;Jiangmin&quot;              &quot;Avira&quot;                
+## [43] &quot;Antiy-AVL&quot;             &quot;Kingsoft&quot;              &quot;Gridinsoft&quot;           
+## [46] &quot;Microsoft&quot;             &quot;ViRobot&quot;               &quot;ZoneAlarm&quot;            
+## [49] &quot;GData&quot;                 &quot;BitDefenderFalx&quot;       &quot;AhnLab-V3&quot;            
+## [52] &quot;BitDefenderTheta&quot;      &quot;TACHYON&quot;               &quot;VBA32&quot;                
+## [55] &quot;Zoner&quot;                 &quot;Tencent&quot;               &quot;Yandex&quot;               
+## [58] &quot;MAX&quot;                   &quot;MaxSecure&quot;             &quot;Fortinet&quot;             
+## [61] &quot;Panda&quot;                 &quot;Sophos&quot;                &quot;Elastic&quot;              
+## [64] &quot;AVG&quot;                   &quot;Cylance&quot;               &quot;SentinelOne&quot;</code></pre>
+</div>
+<div id="visualización-de-los-datos" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Visualización de los datos<a href="visualización-de-datos.html#visualización-de-los-datos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Vamos a visualizar algunos datos principales por pares:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="visualización-de-datos.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(android <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="visualización-de-datos.html#cb23-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">select</span>(total,size,</span>
+<span id="cb23-3"><a href="visualización-de-datos.html#cb23-3" aria-hidden="true" tabindex="-1"></a>     times_submitted,harmless_votes,malicious_votes,positives))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>Observamos en primera instancia que no existe mucha relación entre estas variables.</p>
+<p>Vamos a usar series temporales, al contar con fechas, para representar lo que ha ocurrido a lo largo del tiempo. Usaremos el paquete ggplo2 para estas representaciones:</p>
+<div id="visualizacion_inicial" class="section level3 hasAnchor" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Visualización de positivos<a href="visualización-de-datos.html#visualizacion_inicial" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Vamos a visualizar los positivos encontrados a lo largo del tiempo. Vamos a escoger a partir de una determinada fecha, ya que todos ellos se engloban en el mismo tiempo.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="visualización-de-datos.html#cb24-1" aria-hidden="true" tabindex="-1"></a>android <span class="sc">%&gt;%</span> <span class="fu">filter</span>(scan_date<span class="sc">&gt;=</span><span class="st">&quot;2021-11-03 07:33:53&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="visualización-de-datos.html#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>scan_date,<span class="at">y=</span>positives)) <span class="sc">+</span></span>
+<span id="cb24-3"><a href="visualización-de-datos.html#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color=</span><span class="st">&quot;blue&quot;</span>,<span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb24-4"><a href="visualización-de-datos.html#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb24-5"><a href="visualización-de-datos.html#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">color=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>Podemos observar, en el suavizado realizado, que la media se encuentra en torno a 20-25 positivos por instante de tiempo, con ligeras fluctuaciones.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="análisis-de-datos-de-virus.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="análisis-de-datos.-asociación.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+# Análisis de datos. Clustering
+
+En esta sección vamos a aplicar los distintos procedimientos de análisis de datos vistos a lo largo de la asignatura. Para ello, usaremos el archivo que exportamos en capítulos anteriores: android-simplified.csv.
+
+En este segundo capítulo trateremos sobre las clustering.
+
+## Clustering
+
+Para aplicar clustering necesitamos de valores numéricos, al contrario de lo que hemos tenido que tratar al buscar reglas de asociación. Vamos a intentar establecer grupos entre los virus subidos dependiendo de ciertos criterios.
+
+Para agrupar en clusters, usaremos los paquetes ***cluster*** y ***factoextra***:
+
+```{r, warning=FALSE, message=FALSE}
+library(cluster)
+library(factoextra)
+```
+
+### Elección de atributos
+
+Para poder aplicar clustering, debemos primeramente escoger los atributos que queremos que formen parte del conjunto a comparar. El algoritmo kmeans se encargará de establecer los grupos
+
+```{r, warning=FALSE, message=FALSE}
+android <- read_csv("android-simplified.csv")
+
+# Vamos a eliminar las fechas, el país y el resultado de los escaneos
+android <- android %>%
+           select(-c(scan_date, first_seen, last_seen, submission.submitter_country, additional_info.exiftool.FileType,contains(".result")))
+
+```
+
+### Otros tratamientos
+
+Vamos a modificar los valores NA, que se encuentran en la columna TargetSDKVersion (Version de Android), por la media truncada del resto de valores de la columna
+
+```{r, warning=FALSE, message=FALSE}
+android <- android %>%
+           mutate(additional_info.androguard.TargetSdkVersion=
+                    ifelse(is.na(additional_info.androguard.TargetSdkVersion),trunc(mean(additional_info.androguard.TargetSdkVersion, na.rm=TRUE)),
+                                      additional_info.androguard.TargetSdkVersion))
+```
+
+El resultado final que hemos obtenido en el dataset que usaremos para aplicar el algoritmo kmeans es el siguiente:
+
+```{r, warning=FALSE, message=FALSE}
+paged_table(android)
+dim(android) # Hemos obtenido una tabla de 183 virus y 8 atributos, todos valores numéricos
+```
+
+### Agrupación en clusters. Iteración 1
+
+Vamos a usar el algoritmo kmeans para encontrar, en una primera iteración, los grupos mejor representados. Para ello, vamos a calcular previamente cuál sería el número óptimo de clusters:
+
+```{r, warning=FALSE, message=FALSE}
+android %>%
+  fviz_nbclust(FUNcluster = kmeans, method = "wss",
+                      diss = dist(android, method = "manhattan"))
+
+```
+
+La recta se aplana cuando el numero de clusters es 5, por lo que el error cometido de usar más clusters es irrelevante.
+
+Vamos a ejecutar ahora el algoritmo kmeans para 5 clusters:
+
+```{r, warning=FALSE, message=FALSE}
+grpAnd <- kmeans(android, centers = 5)
+grpAnd
+```
+
+Hemos obtenido un total de 5 clusters de tamaño 79, 14, 3, 86, 1.
+
+Vamos a visualizar los virus según el cluster:
+
+```{r, warning=FALSE, message=FALSE}
+fviz_cluster(grpAnd, data=android)
+```
+
+En la grafica podemos encontrar valores muy dispersos como la fila 4, 45, 40, 70, 162, 85, 103, 50 y 64.
+
+Vamos a prescindir de ellos para encontrar grupos más cercanos entre ellos. Al eliminar estas filas, las columnas *malicious_votes* y *harmless_votes* son costantes, por lo que las vamos a eliminar.
+
+### Agrupación en clusters. Iteración 2
+
+Eliminamos las columnas con datos dispares:
+
+```{r, warning=FALSE, message=FALSE}
+android <- android %>%
+            filter(!...1  %in% c(4, 45, 40, 70,  162, 85, 103, 50, 64)) %>%
+            select(-c(harmless_votes,malicious_votes))
+```
+
+Vamos a repetir el proceso de buscar el mejor numero de clusters:
+
+```{r, warning=FALSE, message=FALSE}
+android %>%
+  fviz_nbclust(FUNcluster = kmeans, method = "wss",
+               diss = dist(android, method = "manhattan"))
+```
+
+En este caso, el número de clusters óptimo se ha reducido a 3. Procedamos a realizar la agrupación:
+
+```{r, warning=FALSE, message=FALSE}
+grpAnd <- kmeans(android, centers = 4)
+grpAnd
+```
+Hemos obtenido un total de 3 clusters de tamaño 77, 54, 30 y 13.
+
+Vamos a visualizar los virus según el cluster:
+
+```{r, warning=FALSE, message=FALSE}
+fviz_cluster(grpAnd, data=android)
+```
+
+Hemos obtenido por tanto 4 grupos bien diferenciados, que se pueden usar para buscar patrones entre ellos como versiones de Android afectadas, positivos totales...

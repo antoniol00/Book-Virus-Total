@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 9 Text Mining en app de mensajería | Proyecto Book LCC</title>
+  <meta name="description" content="Este book ha sido creado para un proyecto de la asignatura Laboratorio de Computación Científica del Grado de Ingeniería Informática en la Universidad de Málaga" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 9 Text Mining en app de mensajería | Proyecto Book LCC" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Este book ha sido creado para un proyecto de la asignatura Laboratorio de Computación Científica del Grado de Ingeniería Informática en la Universidad de Málaga" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 9 Text Mining en app de mensajería | Proyecto Book LCC" />
+  
+  <meta name="twitter:description" content="Este book ha sido creado para un proyecto de la asignatura Laboratorio de Computación Científica del Grado de Ingeniería Informática en la Universidad de Málaga" />
+  
+
+<meta name="author" content="Antonio Lara Gutiérrez" />
+
+
+<meta name="date" content="2022-06-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="conclusiones.html"/>
+<link rel="next" href="referencias.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Proyecto Book LCC</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introducción</a></li>
+<li class="chapter" data-level="2" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html"><i class="fa fa-check"></i><b>2</b> Análisis de datos de virus</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html#metodologia"><i class="fa fa-check"></i><b>2.1</b> Metodologia</a></li>
+<li class="chapter" data-level="2.2" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html#trabajar-con-archivos-json"><i class="fa fa-check"></i><b>2.2</b> Trabajar con archivos JSON</a></li>
+<li class="chapter" data-level="2.3" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html#creación-del-dataset"><i class="fa fa-check"></i><b>2.3</b> Creación del dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html"><i class="fa fa-check"></i><b>3</b> Visualización de datos</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#filtrado-de-información"><i class="fa fa-check"></i><b>3.1</b> Filtrado de información</a></li>
+<li class="chapter" data-level="3.2" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#visualización-de-los-datos"><i class="fa fa-check"></i><b>3.2</b> Visualización de los datos</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#visualizacion_inicial"><i class="fa fa-check"></i><b>3.2.1</b> Visualización de positivos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html"><i class="fa fa-check"></i><b>4</b> Análisis de datos. Asociación</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html#reglas-de-asociación"><i class="fa fa-check"></i><b>4.1</b> Reglas de asociación</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html#iteración-1"><i class="fa fa-check"></i><b>4.1.1</b> Iteración 1</a></li>
+<li class="chapter" data-level="4.1.2" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html#iteración-2"><i class="fa fa-check"></i><b>4.1.2</b> Iteración 2</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html"><i class="fa fa-check"></i><b>5</b> Análisis de datos. Clustering</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#clustering"><i class="fa fa-check"></i><b>5.1</b> Clustering</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#elección-de-atributos-2"><i class="fa fa-check"></i><b>5.1.1</b> Elección de atributos</a></li>
+<li class="chapter" data-level="5.1.2" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#otros-tratamientos-1"><i class="fa fa-check"></i><b>5.1.2</b> Otros tratamientos</a></li>
+<li class="chapter" data-level="5.1.3" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#agrupación-en-clusters.-iteración-1"><i class="fa fa-check"></i><b>5.1.3</b> Agrupación en clusters. Iteración 1</a></li>
+<li class="chapter" data-level="5.1.4" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#agrupación-en-clusters.-iteración-2"><i class="fa fa-check"></i><b>5.1.4</b> Agrupación en clusters. Iteración 2</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html"><i class="fa fa-check"></i><b>6</b> Análisis de datos. FCA</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#análisis-de-conceptos-formales"><i class="fa fa-check"></i><b>6.1</b> Análisis de conceptos formales</a></li>
+<li class="chapter" data-level="6.2" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#trabajo-previo"><i class="fa fa-check"></i><b>6.2</b> Trabajo previo</a></li>
+<li class="chapter" data-level="6.3" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#creación-del-objeto-formal"><i class="fa fa-check"></i><b>6.3</b> Creación del objeto formal</a></li>
+<li class="chapter" data-level="6.4" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#búsqueda-de-información-por-clarificación-y-reducción"><i class="fa fa-check"></i><b>6.4</b> Búsqueda de información por clarificación y reducción</a></li>
+<li class="chapter" data-level="6.5" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#extracción-de-conceptos-e-implicaciones"><i class="fa fa-check"></i><b>6.5</b> Extracción de conceptos e implicaciones</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#conceptos"><i class="fa fa-check"></i><b>6.5.1</b> Conceptos</a></li>
+<li class="chapter" data-level="6.5.2" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#implicaciones"><i class="fa fa-check"></i><b>6.5.2</b> Implicaciones</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="análisis-de-datos.-regresion.html"><a href="análisis-de-datos.-regresion.html"><i class="fa fa-check"></i><b>7</b> Análisis de datos. Regresion</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="análisis-de-datos.-regresion.html"><a href="análisis-de-datos.-regresion.html#regresión"><i class="fa fa-check"></i><b>7.1</b> Regresión</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>8</b> Conclusiones</a></li>
+<li class="chapter" data-level="9" data-path="text-mining-en-app-de-mensajería.html"><a href="text-mining-en-app-de-mensajería.html"><i class="fa fa-check"></i><b>9</b> Text Mining en app de mensajería</a></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/antoniol00/Book-Virus-Total" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Proyecto Book LCC</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="text-mining-en-app-de-mensajería" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Capítulo 9</span> Text Mining en app de mensajería<a href="text-mining-en-app-de-mensajería.html#text-mining-en-app-de-mensajería" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>All chapters start with a first-level heading followed by your chapter title, like the line above. There should be only one first-level heading (<code>#</code>) per .Rmd file.</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="conclusiones.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,152 @@
+# Análisis de datos. FCA
+
+En esta sección vamos a aplicar los distintos procedimientos de análisis de datos vistos a lo largo de la asignatura. Para ello, usaremos el archivo que exportamos en capítulos anteriores: android-simplified.csv.
+
+En este segundo capítulo trateremos sobre el análisis de conceptos formales
+
+## Análisis de conceptos formales
+
+El análisis de conceptos formales es un método para el análisis de datos en cuanto a sus relaciones y estructura, organizando los datos siguiendo el pensamiento humano.
+
+Un contexto formal se define por atributos, objetos y las relaciones entre ellos, $K:=(G,M,I)$.
+
+## Trabajo previo
+
+Para este proyecto vamos a tomar como objetos todos los virus que estamos analizando, como atributos la detección por un antivirus y como relación colocaremos un 0 a aquellos virus que no han sido identificados como tal por un antivirus, y un 1 si sí lo han hecho.
+
+Por tanto, debemos construir una matriz, sobre la que crearemos el contexto formal que tenga en las filas los objetos (virus) y en las columnas los atributos (resultados de cada antivirus):
+
+```{r,warning=FALSE,message=FALSE}
+android <- read_csv("android-simplified.csv")
+
+#Transformamos a matriz de 0 y 1
+android <- android %>%
+  select(contains("scans.")) %>%
+  mutate_all(~replace(., !is.na(.), 1)) %>%
+  mutate_all(~replace(., is.na(.), 0))
+
+paged_table(android)
+
+```
+
+De esta tabla que hemos creado podemos realizar algunos cálculos, cómo en cúantos antivirus un virus ha dado positivo, y en cuantos virus un antivirus ha arrojado positivo:
+
+```{r,warning=FALSE,message=FALSE}
+
+# Calculo de positivos para el objeto n
+n <- sample(1:dim(android)[1],1) # extraemos indice aleatorio
+sum(as.numeric(android[n,])) # calculamos en cuantos antivirus ha dado positivo
+
+# Calculo de positivos dados por el antivirus
+n <- sample(1:dim(android)[2],1) # extraemos indice aleatorio
+sum(as.numeric(android[,n] %>% pull())) # calculamos en cuantos virus ha dado positivo
+
+#Si dividimos el resultado entre el total de virus, podemos calcular el porcentaje de detección
+sum(as.numeric(android[,n] %>% pull()))/dim(android)[1]*100
+
+```
+Vamos a calcular el porcentaje de detección de cada antivirus
+
+```{r,warning=FALSE,message=FALSE}
+df <- NULL # creamos dataset
+
+#añadimos datos para cada antivirus
+for (n in seq(1:dim(android)[2])) {
+  df$antivirus <- rbind(df$antivirus,colnames(android[n]) %>% str_replace("scans.", "") %>% str_replace(".result", ""))
+  df$porcentaje_deteccion <- rbind(df$porcentaje_deteccion,sum(as.numeric(android[,n] %>% pull()))/dim(android)[1]*100)
+}
+
+df <- data.frame(df, stringsAsFactors = FALSE)
+df <- df %>% arrange(desc(porcentaje_deteccion)) # ordenamos por porcentaje de deteccion
+paged_table(df)
+```
+Esta información también puede ser importante a la hora de elegir, si los virus son realmente virus, cuales de los antivirus tienen un mejor desempeño.
+
+## Creación del objeto formal
+
+Volviendo al análisis de objetos formales, usaremos el paquete fcaR:
+
+```{r,warning=FALSE,message=FALSE}
+library(fcaR)
+```
+Vamos a crear, en primer lugar, el objeto fca con la matriz de 0 y 1 que creamos anteriormente:
+
+
+```{r,warning=FALSE,message=FALSE}
+#Creamos contexto formal
+fc <- FormalContext$new(android)
+atributos <- fc$attributes
+objetos <- fc$objects
+```
+## Búsqueda de información por clarificación y reducción
+
+En primer lugar, vamos a intentar agrupar tanto objetos como atributos, y poder extraer información de estas agrupaciones. Para ello, ejecutaremos las funciones:
+
+```{r,warning=FALSE,message=FALSE}
+#Agrupamos y reducimos
+fc <- fc$clarify(TRUE)
+fc <- fc$reduce(TRUE)
+
+new_atributos <- fc$attributes
+new_objetos <- fc$objects
+```
+
+Una vez aplicado reducción y clarificación, sacamos varias conclusiones:
+
+- Hay antivirus que nunca han detectado nada
+
+```{r,warning=FALSE,message=FALSE}
+setdiff(atributos,new_atributos) #quitando avast, avg, trendmicro-*
+```
+
+- Hay dos pares de antivirus que detectan lo mismo -> mismo motor
+
+```{r,warning=FALSE,message=FALSE}
+new_atributos[c(39,40)] # se han simplificado, indicando que aportan los mismos resultados
+
+android <- read_csv("android-simplified.csv")
+android %>% select("scans.Avast.result", "scans.AVG.result")
+android %>% select("scans.TrendMicro-HouseCall.result", "scans.TrendMicro.result")
+```
+Concluimos, por tanto, que tanto Avast y AVG, y TrendMicro-HouseCall y TrendMicro usan el mismo motor de detección
+
+- Hay objetos que son exactamente iguales
+
+```{r,warning=FALSE,message=FALSE}
+new_objetos[155:length(new_objetos)]
+```
+
+Los siguientes objetos parecen ser los mismos virus, al dar positivo de los mismos antivirus.
+
+## Extracción de conceptos e implicaciones
+
+En este último análisis, vamos a intentar extraer tanto conceptos como implicaciones.
+
+### Conceptos
+
+```{r,warning=FALSE,message=FALSE}
+#Buscamos conceptos y representamos
+fc$find_concepts()
+
+fc$concepts[which(fc$concepts$support()>0.95)]
+```
+
+De los conceptos con más soporte podemos extraer que tanto ESET-NOD32 como Ikarus aparecen presentes en la mayoría de las detecciones
+
+### Implicaciones
+
+Vamos a buscar implicaciones, para posteriormente analizarlas como si se tratasen de reglas de asociación, usando para ello el paquete ***arules***
+
+```{r,warning=FALSE,message=FALSE}
+fc$find_implications() # buscamos implicaciones
+rules <- fc$implications$to_arules() # extraemos reglas
+
+rules_subset <- subset(rules, subset = support>0.7) # filtramos aquellas con soporte alto
+length(rules_subset) # hemos encontrado un total de 6 reglas
+```
+Hemos conseguido 6 reglas con soporte bastante alto. Vamos a explorarlas
+
+```{r,warning=FALSE,message=FALSE}
+inspect(rules_subset)
+```
+De estas reglas, podemos extraer información viendo qué antivirus han arrojado un valor positivo siempre que otro también lo han hecho, así se podría predecir el comportamiento de los presentes.
