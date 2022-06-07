@@ -23,7 +23,7 @@
 <meta name="author" content="Antonio Lara Gutiérrez" />
 
 
-<meta name="date" content="2022-06-06" />
+<meta name="date" content="2022-06-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -256,7 +256,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb96-3"><a href="análisis-de-datos.-regresion.html#cb96-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">&quot;blue&quot;</span>,<span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb96-4"><a href="análisis-de-datos.-regresion.html#cb96-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
 <span id="cb96-5"><a href="análisis-de-datos.-regresion.html#cb96-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>scan_date,<span class="at">y=</span><span class="fu">predict</span>(model,android <span class="sc">%&gt;%</span> <span class="fu">filter</span>(scan_date<span class="sc">&gt;=</span><span class="st">&quot;2021-11-03 07:33:53&quot;</span>)),<span class="at">color=</span><span class="st">&quot;red&quot;</span>))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-47-1.png" width="672" />
+<p><img src="_main_files/figure-html/unnamed-chunk-48-1.png" width="672" />
 Vamos a intentar realizar regresión con otras variables.</p>
 <div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="análisis-de-datos.-regresion.html#cb97-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span>  <span class="fu">lm</span>( harmless_votes <span class="sc">~</span> malicious_votes, <span class="at">data =</span> dataset)</span>
 <span id="cb97-2"><a href="análisis-de-datos.-regresion.html#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div>
