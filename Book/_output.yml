@@ -5,7 +5,7 @@ bookdown::gitbook:
       before: |
         <li><a href="./">Proyecto Book LCC</a></li>
       after: |
-        <li><a href="https://github.com/antoniol00/Book-Virus-Total" target="blank">Publicado con bookdown</a></li>
+        <li><a href="https://github.com/antoniol00/Book-Virus-Total" target="blank">GitHub del proyecto grupal</a></li>
     download: ["pdf", "epub"]
 bookdown::pdf_book:
   includes:

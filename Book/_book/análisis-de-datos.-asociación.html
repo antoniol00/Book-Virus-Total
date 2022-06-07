@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Capítulo 4 Análisis de datos. Asociación | Proyecto Book LCC</title>
   <meta name="description" content="Este book ha sido creado para un proyecto de la asignatura Laboratorio de Computación Científica del Grado de Ingeniería Informática en la Universidad de Málaga" />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Capítulo 4 Análisis de datos. Asociación | Proyecto Book LCC" />
   <meta property="og:type" content="book" />
+  
   
   <meta property="og:description" content="Este book ha sido creado para un proyecto de la asignatura Laboratorio de Computación Científica del Grado de Ingeniería Informática en la Universidad de Málaga" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
@@ -20,7 +21,7 @@
   <meta name="twitter:description" content="Este book ha sido creado para un proyecto de la asignatura Laboratorio de Computación Científica del Grado de Ingeniería Informática en la Universidad de Málaga" />
   
 
-<meta name="author" content="Antonio Lara Gutiérrez" />
+<meta name="author" content="Antonio Lara Gutiérrez y Víctor Ramírez Mármol" />
 
 
 <meta name="date" content="2022-06-07" />
@@ -32,6 +33,7 @@
   
 <link rel="prev" href="visualización-de-datos.html"/>
 <link rel="next" href="análisis-de-datos.-clustering.html"/>
+<script src="libs/header-attrs-2.12/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -138,60 +140,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Proyecto Book LCC</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introducción</a></li>
-<li class="chapter" data-level="2" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html"><i class="fa fa-check"></i><b>2</b> Análisis de datos de virus</a>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introducción<span></span></a></li>
+<li class="chapter" data-level="2" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html"><i class="fa fa-check"></i><b>2</b> Análisis de datos de virus<span></span></a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html#metodologia"><i class="fa fa-check"></i><b>2.1</b> Metodologia</a></li>
-<li class="chapter" data-level="2.2" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html#trabajar-con-archivos-json"><i class="fa fa-check"></i><b>2.2</b> Trabajar con archivos JSON</a></li>
-<li class="chapter" data-level="2.3" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html#creación-del-dataset"><i class="fa fa-check"></i><b>2.3</b> Creación del dataset</a></li>
+<li class="chapter" data-level="2.1" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html#metodologia"><i class="fa fa-check"></i><b>2.1</b> Metodologia<span></span></a></li>
+<li class="chapter" data-level="2.2" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html#trabajar-con-archivos-json"><i class="fa fa-check"></i><b>2.2</b> Trabajar con archivos JSON<span></span></a></li>
+<li class="chapter" data-level="2.3" data-path="análisis-de-datos-de-virus.html"><a href="análisis-de-datos-de-virus.html#creación-del-dataset"><i class="fa fa-check"></i><b>2.3</b> Creación del dataset<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html"><i class="fa fa-check"></i><b>3</b> Visualización de datos</a>
+<li class="chapter" data-level="3" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html"><i class="fa fa-check"></i><b>3</b> Visualización de datos<span></span></a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#filtrado-de-información"><i class="fa fa-check"></i><b>3.1</b> Filtrado de información</a></li>
-<li class="chapter" data-level="3.2" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#visualización-de-los-datos"><i class="fa fa-check"></i><b>3.2</b> Visualización de los datos</a>
+<li class="chapter" data-level="3.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#filtrado-de-información"><i class="fa fa-check"></i><b>3.1</b> Filtrado de información<span></span></a></li>
+<li class="chapter" data-level="3.2" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#visualización-de-los-datos"><i class="fa fa-check"></i><b>3.2</b> Visualización de los datos<span></span></a>
 <ul>
-<li class="chapter" data-level="3.2.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#visualizacion_inicial"><i class="fa fa-check"></i><b>3.2.1</b> Visualización de positivos</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html"><i class="fa fa-check"></i><b>4</b> Análisis de datos. Asociación</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html#reglas-de-asociación"><i class="fa fa-check"></i><b>4.1</b> Reglas de asociación</a>
-<ul>
-<li class="chapter" data-level="4.1.1" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html#iteración-1"><i class="fa fa-check"></i><b>4.1.1</b> Iteración 1</a></li>
-<li class="chapter" data-level="4.1.2" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html#iteración-2"><i class="fa fa-check"></i><b>4.1.2</b> Iteración 2</a></li>
+<li class="chapter" data-level="3.2.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#visualizacion_inicial"><i class="fa fa-check"></i><b>3.2.1</b> Visualización de positivos<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html"><i class="fa fa-check"></i><b>5</b> Análisis de datos. Clustering</a>
+<li class="chapter" data-level="4" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html"><i class="fa fa-check"></i><b>4</b> Análisis de datos. Asociación<span></span></a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#clustering"><i class="fa fa-check"></i><b>5.1</b> Clustering</a>
+<li class="chapter" data-level="4.1" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html#reglas-de-asociación"><i class="fa fa-check"></i><b>4.1</b> Reglas de asociación<span></span></a>
 <ul>
-<li class="chapter" data-level="5.1.1" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#elección-de-atributos-2"><i class="fa fa-check"></i><b>5.1.1</b> Elección de atributos</a></li>
-<li class="chapter" data-level="5.1.2" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#otros-tratamientos-1"><i class="fa fa-check"></i><b>5.1.2</b> Otros tratamientos</a></li>
-<li class="chapter" data-level="5.1.3" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#agrupación-en-clusters.-iteración-1"><i class="fa fa-check"></i><b>5.1.3</b> Agrupación en clusters. Iteración 1</a></li>
-<li class="chapter" data-level="5.1.4" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#agrupación-en-clusters.-iteración-2"><i class="fa fa-check"></i><b>5.1.4</b> Agrupación en clusters. Iteración 2</a></li>
+<li class="chapter" data-level="4.1.1" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html#iteración-1"><i class="fa fa-check"></i><b>4.1.1</b> Iteración 1<span></span></a></li>
+<li class="chapter" data-level="4.1.2" data-path="análisis-de-datos.-asociación.html"><a href="análisis-de-datos.-asociación.html#iteración-2"><i class="fa fa-check"></i><b>4.1.2</b> Iteración 2<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html"><i class="fa fa-check"></i><b>6</b> Análisis de datos. FCA</a>
+<li class="chapter" data-level="5" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html"><i class="fa fa-check"></i><b>5</b> Análisis de datos. Clustering<span></span></a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#análisis-de-conceptos-formales"><i class="fa fa-check"></i><b>6.1</b> Análisis de conceptos formales</a></li>
-<li class="chapter" data-level="6.2" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#trabajo-previo"><i class="fa fa-check"></i><b>6.2</b> Trabajo previo</a></li>
-<li class="chapter" data-level="6.3" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#creación-del-objeto-formal"><i class="fa fa-check"></i><b>6.3</b> Creación del objeto formal</a></li>
-<li class="chapter" data-level="6.4" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#búsqueda-de-información-por-clarificación-y-reducción"><i class="fa fa-check"></i><b>6.4</b> Búsqueda de información por clarificación y reducción</a></li>
-<li class="chapter" data-level="6.5" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#extracción-de-conceptos-e-implicaciones"><i class="fa fa-check"></i><b>6.5</b> Extracción de conceptos e implicaciones</a>
+<li class="chapter" data-level="5.1" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#clustering"><i class="fa fa-check"></i><b>5.1</b> Clustering<span></span></a>
 <ul>
-<li class="chapter" data-level="6.5.1" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#conceptos"><i class="fa fa-check"></i><b>6.5.1</b> Conceptos</a></li>
-<li class="chapter" data-level="6.5.2" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#implicaciones"><i class="fa fa-check"></i><b>6.5.2</b> Implicaciones</a></li>
+<li class="chapter" data-level="5.1.1" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#elección-de-atributos-2"><i class="fa fa-check"></i><b>5.1.1</b> Elección de atributos<span></span></a></li>
+<li class="chapter" data-level="5.1.2" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#otros-tratamientos-1"><i class="fa fa-check"></i><b>5.1.2</b> Otros tratamientos<span></span></a></li>
+<li class="chapter" data-level="5.1.3" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#agrupación-en-clusters.-iteración-1"><i class="fa fa-check"></i><b>5.1.3</b> Agrupación en clusters. Iteración 1<span></span></a></li>
+<li class="chapter" data-level="5.1.4" data-path="análisis-de-datos.-clustering.html"><a href="análisis-de-datos.-clustering.html#agrupación-en-clusters.-iteración-2"><i class="fa fa-check"></i><b>5.1.4</b> Agrupación en clusters. Iteración 2<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="análisis-de-datos.-regresion.html"><a href="análisis-de-datos.-regresion.html"><i class="fa fa-check"></i><b>7</b> Análisis de datos. Regresion</a>
+<li class="chapter" data-level="6" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html"><i class="fa fa-check"></i><b>6</b> Análisis de datos. FCA<span></span></a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="análisis-de-datos.-regresion.html"><a href="análisis-de-datos.-regresion.html#regresión"><i class="fa fa-check"></i><b>7.1</b> Regresión</a></li>
+<li class="chapter" data-level="6.1" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#análisis-de-conceptos-formales"><i class="fa fa-check"></i><b>6.1</b> Análisis de conceptos formales<span></span></a></li>
+<li class="chapter" data-level="6.2" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#trabajo-previo"><i class="fa fa-check"></i><b>6.2</b> Trabajo previo<span></span></a></li>
+<li class="chapter" data-level="6.3" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#creación-del-objeto-formal"><i class="fa fa-check"></i><b>6.3</b> Creación del objeto formal<span></span></a></li>
+<li class="chapter" data-level="6.4" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#búsqueda-de-información-por-clarificación-y-reducción"><i class="fa fa-check"></i><b>6.4</b> Búsqueda de información por clarificación y reducción<span></span></a></li>
+<li class="chapter" data-level="6.5" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#extracción-de-conceptos-e-implicaciones"><i class="fa fa-check"></i><b>6.5</b> Extracción de conceptos e implicaciones<span></span></a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#conceptos"><i class="fa fa-check"></i><b>6.5.1</b> Conceptos<span></span></a></li>
+<li class="chapter" data-level="6.5.2" data-path="análisis-de-datos.-fca.html"><a href="análisis-de-datos.-fca.html#implicaciones"><i class="fa fa-check"></i><b>6.5.2</b> Implicaciones<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>8</b> Conclusiones</a></li>
-<li class="chapter" data-level="9" data-path="text-mining-en-app-de-mensajería.html"><a href="text-mining-en-app-de-mensajería.html"><i class="fa fa-check"></i><b>9</b> Text Mining en app de mensajería</a></li>
-<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="análisis-de-datos.-regresion.html"><a href="análisis-de-datos.-regresion.html"><i class="fa fa-check"></i><b>7</b> Análisis de datos. Regresion<span></span></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="análisis-de-datos.-regresion.html"><a href="análisis-de-datos.-regresion.html#regresión"><i class="fa fa-check"></i><b>7.1</b> Regresión<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>8</b> Conclusiones<span></span></a></li>
+<li class="chapter" data-level="9" data-path="text-mining-en-app-de-mensajería.html"><a href="text-mining-en-app-de-mensajería.html"><i class="fa fa-check"></i><b>9</b> Text Mining en app de mensajería<span></span></a></li>
+<li><a href="referencias.html#referencias">Referencias<span></span></a></li>
 <li class="divider"></li>
-<li><a href="https://github.com/antoniol00/Book-Virus-Total" target="blank">Publicado con bookdown</a></li>
+<li><a href="https://github.com/antoniol00/Book-Virus-Total" target="blank">GitHub del proyecto grupal</a></li>
 
 </ul>
 

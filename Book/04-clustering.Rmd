@@ -96,13 +96,13 @@ android %>%
                diss = dist(android, method = "manhattan"))
 ```
 
-En este caso, el número de clusters óptimo se ha reducido a 3. Procedamos a realizar la agrupación:
+En este caso, el número de clusters óptimo se ha reducido a 4. Procedamos a realizar la agrupación:
 
 ```{r, warning=FALSE, message=FALSE}
 grpAnd <- kmeans(android, centers = 4)
 grpAnd
 ```
-Hemos obtenido un total de 3 clusters de tamaño 77, 54, 30 y 13.
+Hemos obtenido un total de 4 clusters de tamaño 77, 54, 30 y 13.
 
 Vamos a visualizar los virus según el cluster:
 
@@ -111,3 +111,15 @@ fviz_cluster(grpAnd, data=android)
 ```
 
 Hemos obtenido por tanto 4 grupos bien diferenciados, que se pueden usar para buscar patrones entre ellos como versiones de Android afectadas, positivos totales...
+
+Vamos a recoger toda esta información de una manera más simple presentando una tabla que relacione cada virus, con un identificador que vamos a añadirle, y el grupo en el que se encuentra.
+
+```{r, warning=FALSE, message=FALSE}
+android <- android %>%
+  mutate(ID = paste("Virus",seq(1:dim(android)[1]), sep="")) # Añadimos los identificadores
+
+orden <- order(grpAnd$cluster) # Extraemos el orden
+
+paged_table(data.frame(android$ID[orden], grpAnd$cluster[orden]))
+```
+

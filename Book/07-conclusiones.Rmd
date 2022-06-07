@@ -4,7 +4,7 @@ Como conclusión a este proyecto, podemos recalcar que el análisis de datos es 
 
 Hemos aprendido a construir un dataset desde cero, y hemos aplicado preprocessing y filtrado en cada nueva herramienta de análisis de datos que hemos tenido que usar. Esta fase del análisis es la más importante, y es la que menos suelen pensar al iniciarse en esta disciplina.
 
-Una de las técnicas más relevantes y la que nos ha ofrecido mejores resultados es el análisis de conceptos formales. Incluso ha servido para poder extraae reglas fácilmente y poder ser tratadas como reglas de asociación, con implicaciones mucho mejor desarrolladas y significantes.
+Una de las técnicas más relevantes y la que nos ha ofrecido mejores resultados es el análisis de conceptos formales. Incluso ha servido para poder extraer reglas fácilmente y poder ser tratadas como reglas de asociación, con implicaciones mucho mejor desarrolladas y significativas.
 
 En definitiva, trabajar con este proyecto nos ha servido para involucrarnos en una tarea real de análisis de datos, y esperemos que no sea la última, porque esta disciplina es una de nuestras favoritas.
 

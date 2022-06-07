@@ -14,7 +14,7 @@ dim(android) # 183 objetos y 447 atributos
 
 head(colnames(android),30)
 ```
-En estos primeros 30 atributos nos encontramos la información más importante. En el resto de atributos nos aparece información adicionaly el resultado del escaneo con todos los antivirus que han sido probados. En este resultado nos aparece el tipo de virus que ha sido identificado por el motor del antivirus, y aparece en la columna scans.*nombreAntivirus*.result:
+En estos primeros 30 atributos nos encontramos la información más importante. En el resto de atributos nos aparece información adicional y el resultado del escaneo con todos los antivirus que han sido probados. En este resultado nos aparece el tipo de virus que ha sido identificado por el motor del antivirus, y aparece en la columna scans.*nombreAntivirus*.result:
 
 ```{r, warning=FALSE, message=FALSE}
 android <- android %>%

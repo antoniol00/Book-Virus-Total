@@ -1,6 +1,6 @@
 --- 
 title: "Proyecto Book LCC"
-author: "Antonio Lara Gutiérrez"
+author: "Antonio Lara Gutiérrez y Víctor Ramírez Mármol"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book

@@ -8,7 +8,7 @@ En este segundo capítulo trateremos sobre técnicas de regresión univariables,
 
 Vamos a intentar en primer lugar, haciendo uso de la orden lm, una regresión univariable para intentar predecir el número de positivos que arroja cada virus, en función del resto de las variables numéricas.
 
-Como vimos en \@ref(visualizacion_inicial), vamos a filtrar para evitar aquellos valores anómalos.
+Como vimos en el capítulo de visualización inicial, vamos a filtrar para evitar aquellos valores anómalos.
 
 ```{r,message=FALSE,warning=FALSE}
 dataset <- read.csv("android-simplified.csv")
@@ -30,12 +30,14 @@ android %>% filter(scan_date>="2021-11-03 07:33:53") %>%
   theme_minimal() +
   geom_line(aes(x=scan_date,y=predict(model,android %>% filter(scan_date>="2021-11-03 07:33:53")),color="red"))
 ```
+
 Vamos a intentar realizar regresión con otras variables.
 
 ```{r, warning=FALSE, message=FALSE}
 model <-  lm( harmless_votes ~ malicious_votes, data = dataset)
 summary(model)
 ```
+
 Malicious_votes está muy relacionada con Harmless_votes y un poco con positives. No es fiable porque solo representa 3 casos aislados y todos los que son 0. Osea, cuando no hay harmless_votes no suele haber malicious_votes, algo de sentido común si los archivos que se suben no tienen nada raro.
 
 Observando el resto de variables, no vamos a obtener nada en claro, y parece que no vamos a poder encontrar ninguna regresión lo suficientemente buena para incluirla como conclusión final.

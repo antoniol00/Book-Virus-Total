@@ -105,8 +105,8 @@ setdiff(atributos,new_atributos) #quitando avast, avg, trendmicro-*
 new_atributos[c(39,40)] # se han simplificado, indicando que aportan los mismos resultados
 
 android <- read_csv("android-simplified.csv")
-android %>% select("scans.Avast.result", "scans.AVG.result")
-android %>% select("scans.TrendMicro-HouseCall.result", "scans.TrendMicro.result")
+paged_table(android %>% select("scans.Avast.result", "scans.AVG.result"))
+paged_table(android %>% select("scans.TrendMicro-HouseCall.result", "scans.TrendMicro.result"))
 ```
 Concluimos, por tanto, que tanto Avast y AVG, y TrendMicro-HouseCall y TrendMicro usan el mismo motor de detección
 
